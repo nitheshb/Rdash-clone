@@ -152,6 +152,7 @@ export const onCreateWorkflow = async (name: string, description: string) => {
   const user = await currentUser()
 
   if (user) {
+    console.log('usr.id', user.id)
     //create new workflow
     const workflow = await db.workflows.create({
       data: {
