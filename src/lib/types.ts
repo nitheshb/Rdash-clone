@@ -11,7 +11,7 @@ export const WorkflowFormSchema = z.object({
   description: z.string().min(1, 'Required'),
 })
 
-export type ConnectionTypes = 'Google Drive' | 'Notion' | 'Slack' | 'Discord'
+export type ConnectionTypes = 'Google Drive' | 'Notion' | 'Slack' | 'Discord' | 'Telegram'
 
 export type Connection = {
   title: ConnectionTypes
@@ -26,7 +26,7 @@ export type Connection = {
 export type EditorCanvasTypes =
   | 'Email'
   | 'Condition'
-  | 'AI'
+  | 'Open AI'
   | 'Slack'
   | 'Google Drive'
   | 'Notion'
@@ -35,6 +35,12 @@ export type EditorCanvasTypes =
   | 'Trigger'
   | 'Action'
   | 'Wait'
+  | 'Discord'
+  | 'Telegram'
+  | 'Get Recent Message'
+  | 'Send Message'
+
+export type EditorCanvasStatus = 'idle' | 'loading' | 'success' | 'failure';
 
 export type EditorCanvasCardType = {
   title: string
@@ -43,11 +49,13 @@ export type EditorCanvasCardType = {
   current: boolean
   metadata: any
   type: EditorCanvasTypes
+  status: EditorCanvasStatus;
 }
 
 export type EditorNodeType = {
   id: string
   type: EditorCanvasCardType['type']
+  myFunction: () => void
   position: {
     x: number
     y: number
@@ -59,34 +67,35 @@ export type EditorNode = EditorNodeType
 
 export type EditorActions =
   | {
-      type: 'LOAD_DATA'
-      payload: {
-        elements: EditorNode[]
-        edges: {
-          id: string
-          source: string
-          target: string
-        }[]
-      }
+    type: 'LOAD_DATA'
+    payload: {
+      elements: EditorNode[]
+      edges: {
+        id: string
+        source: string
+        target: string
+      }[]
     }
+  }
   | {
-      type: 'UPDATE_NODE'
-      payload: {
-        elements: EditorNode[]
-      }
+    type: 'UPDATE_NODE'
+    payload: {
+      elements: EditorNode[]
     }
+  }
   | { type: 'REDO' }
   | { type: 'UNDO' }
   | {
-      type: 'SELECTED_ELEMENT'
-      payload: {
-        element: EditorNode
-      }
+    type: 'SELECTED_ELEMENT'
+    payload: {
+      element: EditorNode
     }
+  }
 
 export const nodeMapper: Record<string, string> = {
   Notion: 'notionNode',
   Slack: 'slackNode',
   Discord: 'discordNode',
+  Telegram: 'telegramNode',
   'Google Drive': 'googleNode',
 }

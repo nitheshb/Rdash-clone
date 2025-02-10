@@ -65,7 +65,7 @@ const EditorCanvasSidebar = ({ nodes }: Props) => {
         <Separator />
         <TabsContent
           value="actions"
-          className="flex flex-col gap-4 p-4"
+          className="flex flex-col gap-4 p-4 mb-14"
         >
           {Object.entries(EditorCanvasDefaultCardTypes)
             .filter(
@@ -94,7 +94,7 @@ const EditorCanvasSidebar = ({ nodes }: Props) => {
         </TabsContent>
         <TabsContent
           value="settings"
-          className="-mt-6"
+          className="-mt-14"
         >
           <div className="px-2 py-4 text-center text-xl font-bold">
             {state.editor.selectedNode.data.title}
