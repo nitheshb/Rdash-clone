@@ -5,6 +5,7 @@ import { Position, useNodeId } from 'reactflow'
 import EditorCanvasIconHelper from './editor-canvas-card-icon-hepler'
 import CustomHandle from './custom-handle'
 import { Badge } from '@/components/ui/badge'
+import {Check, LoaderCircle, X} from 'lucide-react'
 
 import {
   Card,
@@ -12,7 +13,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import clsx from 'clsx'
 
 type Props = {}
 
@@ -21,7 +21,7 @@ const EditorCanvasCardSingle = ({ data }: { data: EditorCanvasCardType }) => {
   const nodeId = useNodeId()
   const logo = useMemo(() => {
     return <EditorCanvasIconHelper type={data.type} />
-  }, [data])
+  }, [data])  
 
   return (
     <>
@@ -59,19 +59,47 @@ const EditorCanvasCardSingle = ({ data }: { data: EditorCanvasCardType }) => {
             </CardDescription>
           </div>
         </CardHeader>
-        <Badge
+        {/* <Badge
           variant="secondary"
           className="absolute right-2 top-2"
         >
           {data.type}
-        </Badge>
+        </Badge> */}
+
         <div
-          className={clsx('absolute left-3 top-4 h-2 w-2 rounded-full', {
-            'bg-green-500': Math.random() < 0.6,
-            'bg-orange-500': Math.random() >= 0.6 && Math.random() < 0.8,
-            'bg-red-500': Math.random() >= 0.8,
-          })}
-        ></div>
+          className='absolute right-3 top-2 h-2 w-2 rounded-full'>
+            {data.status === 'success' && 
+            <>
+              <Badge
+          variant="secondary"
+          className="absolute right-2 gap-1"
+        >
+          <Check className='text-green-500'/>
+          Completed
+        </Badge>
+        
+        </>}
+            {data.status === 'loading' && 
+            <>
+            <Badge
+          variant="secondary"
+          className="absolute right-2 gap-1"
+        >
+          <LoaderCircle className="w-6 h-6 text-orange-500 animate-spin" />
+          Running
+        </Badge>
+            </>}
+            {data.status === 'failure' && 
+            <>
+            <Badge
+          variant="secondary"
+          className="absolute right-2 gap-1"
+        >
+          <X className='text-red-500'/>
+          Failed
+        </Badge>            
+            </>}
+          </div>
       </Card>
       <CustomHandle
         type="source"

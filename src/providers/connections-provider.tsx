@@ -21,6 +21,7 @@ export type ConnectionProviderProps = {
     discord?: string
     notion?: string
     slack?: string
+    telegram?: string
   }
   setNotionNode: React.Dispatch<React.SetStateAction<any>>
   slackNode: {
@@ -34,6 +35,17 @@ export type ConnectionProviderProps = {
     content: string
   }
   setSlackNode: React.Dispatch<React.SetStateAction<any>>
+  telegramNode: {
+    botAccessToken: string
+    content: string
+  }
+  setTelegramNode: React.Dispatch<React.SetStateAction<any>>
+  jiraNode: {
+    jiraApiToken: string
+    jiraDomain: string
+    projectKey: string
+  }
+  setJiraNode: React.Dispatch<React.SetStateAction<any>>
   setWorkFlowTemplate: React.Dispatch<
     React.SetStateAction<{
       discord?: string
@@ -67,6 +79,7 @@ const InitialValues: ConnectionProviderProps = {
     discord: '',
     notion: '',
     slack: '',
+    telegram: '',
   },
   slackNode: {
     appId: '',
@@ -78,11 +91,22 @@ const InitialValues: ConnectionProviderProps = {
     teamName: '',
     content: '',
   },
+  telegramNode: {
+    botAccessToken: '',
+    content: '',
+  },
+  jiraNode: {
+    jiraApiToken: '',
+    jiraDomain: '',
+    projectKey: '',
+  },
   isLoading: false,
   setGoogleNode: () => undefined,
   setDiscordNode: () => undefined,
   setNotionNode: () => undefined,
   setSlackNode: () => undefined,
+  setTelegramNode: () => undefined,
+  setJiraNode: () => undefined,
   setIsLoading: () => undefined,
   setWorkFlowTemplate: () => undefined,
 }
@@ -95,6 +119,8 @@ export const ConnectionsProvider = ({ children }: ConnectionWithChildProps) => {
   const [googleNode, setGoogleNode] = useState(InitialValues.googleNode)
   const [notionNode, setNotionNode] = useState(InitialValues.notionNode)
   const [slackNode, setSlackNode] = useState(InitialValues.slackNode)
+  const [telegramNode, setTelegramNode] = useState(InitialValues.telegramNode)
+  const [jiraNode, setJiraNode] = useState(InitialValues.jiraNode)
   const [isLoading, setIsLoading] = useState(InitialValues.isLoading)
   const [workflowTemplate, setWorkFlowTemplate] = useState(
     InitialValues.workflowTemplate
@@ -109,6 +135,10 @@ export const ConnectionsProvider = ({ children }: ConnectionWithChildProps) => {
     setNotionNode,
     slackNode,
     setSlackNode,
+    telegramNode,
+    setTelegramNode,
+    jiraNode,
+    setJiraNode,
     isLoading,
     setIsLoading,
     workflowTemplate,

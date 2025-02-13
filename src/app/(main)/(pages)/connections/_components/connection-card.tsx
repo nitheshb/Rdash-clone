@@ -1,5 +1,6 @@
+"use client";
 import { ConnectionTypes } from '@/lib/types'
-import React from 'react'
+import React, { useState } from 'react'
 import {
   Card,
   CardDescription,
@@ -8,6 +9,7 @@ import {
 } from '@/components/ui/card'
 import Image from 'next/image'
 import Link from 'next/link'
+import TelegramConnectForm from '@/components/forms/telegram-connect-form';
 
 type Props = {
   type: ConnectionTypes
@@ -25,6 +27,14 @@ const ConnectionCard = ({
   title,
   connected,
 }: Props) => {
+  const [showTelegramForm, setShowTelegramForm] = useState(false);
+
+  const handleConnectClick = (e: React.MouseEvent) => {
+    if (title === 'Telegram') {
+      e.preventDefault();
+      setShowTelegramForm(true);
+    }
+  };
   return (
     <Card className="flex w-full items-center justify-between">
       <CardHeader className="flex flex-col gap-4">
@@ -44,7 +54,7 @@ const ConnectionCard = ({
       </CardHeader>
       <div className="flex flex-col items-center gap-2 p-4">
         {connected[type] ? (
-          <div className="border-bg-primary rounded-lg border-2 px-3 py-2 font-bold text-white">
+          <div className="border-bg-primary rounded-lg border-2 px-3 py-2 font-bold text-black dark:text-white">
             Connected
           </div>
         ) : (
@@ -58,12 +68,14 @@ const ConnectionCard = ({
                 ? process.env.NEXT_PUBLIC_SLACK_REDIRECT!
                 : '#'
             }
+            onClick={title === 'Telegram' ? handleConnectClick : undefined}
             className=" rounded-lg bg-primary p-2 font-bold text-primary-foreground"
           >
             Connect
           </Link>
         )}
       </div>
+      {showTelegramForm && <TelegramConnectForm onClose={() => setShowTelegramForm(false)} />}
     </Card>
   )
 }

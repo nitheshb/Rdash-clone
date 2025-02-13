@@ -1,15 +1,8 @@
 'use client'
 import React from 'react'
 import {
-  Calendar,
-  CircuitBoard,
-  Database,
   GitBranch,
-  HardDrive,
-  Mail,
   MousePointerClickIcon,
-  Plus,
-  Slack,
   Timer,
   Webhook,
   Zap,
@@ -22,9 +15,12 @@ const EditorCanvasIconHelper = ({ type }: Props) => {
   switch (type) {
     case 'Email':
       return (
-        <Mail
-          className="flex-shrink-0"
-          size={30}
+        <img
+          src='/gmail.svg'
+          alt='Gmail'
+          className='flex-shrink-0'
+          width={30}
+          height={30}
         />
       )
     case 'Condition':
@@ -34,32 +30,54 @@ const EditorCanvasIconHelper = ({ type }: Props) => {
           size={30}
         />
       )
-    case 'AI':
+    case 'Open AI':
       return (
-        <CircuitBoard
-          className="flex-shrink-0"
-          size={30}
+        <img
+          src='/openai.svg'
+          alt='Open AI'
+          className='flex-shrink-0'
+          width={30}
+          height={30}
         />
       )
     case 'Slack':
       return (
-        <Slack
-          className="flex-shrink-0"
-          size={30}
+        <img
+          src='/slack.svg'
+          alt='Slack'
+          className='flex-shrink-0'
+          width={30}
+          height={30}
         />
       )
     case 'Google Drive':
       return (
-        <HardDrive
-          className="flex-shrink-0"
-          size={30}
+        <img
+          src='/googleDrive.svg'
+          alt='Google Drive'
+          className='flex-shrink-0'
+          width={30}
+          height={30}
         />
       )
     case 'Notion':
       return (
-        <Database
-          className="flex-shrink-0"
-          size={30}
+        <img
+          src='/notion.svg'
+          alt='Notion'
+          className='flex-shrink-0'
+          width={30}
+          height={30}
+        />
+      )
+      case 'Discord':
+      return (
+        <img
+          src='/discord.svg'
+          alt='Discord'
+          className='flex-shrink-0'
+          width={30}
+          height={30}
         />
       )
     case 'Custom Webhook':
@@ -71,9 +89,12 @@ const EditorCanvasIconHelper = ({ type }: Props) => {
       )
     case 'Google Calendar':
       return (
-        <Calendar
-          className="flex-shrink-0"
-          size={30}
+        <img
+          src='/googleCalendar.svg'
+          alt='Google Calendar'
+          className='flex-shrink-0'
+          width={30}
+          height={30}
         />
       )
     case 'Trigger':
@@ -95,6 +116,33 @@ const EditorCanvasIconHelper = ({ type }: Props) => {
         <Timer
           className="flex-shrink-0"
           size={30}
+        />
+      )
+    case 'Telegram Connection':
+    case 'Get Recent Message':
+    case 'Send Message':
+      return (
+        <img
+          src='/telegram.svg'
+          alt='Telegram'
+          className='flex-shrink-0'
+          width={30}
+          height={30}
+        />
+      )
+      case 'Jira Connection':
+      case 'Get Many Jira Issues':
+      case  'Get Jira Issue':
+      case 'Create Jira Issue':
+      case 'Delete Jira Issue':
+      case 'Update Jira Issue':
+      return (
+        <img
+          src='/jira.svg'
+          alt='Jira'
+          className='flex-shrink-0'
+          width={30}
+          height={30}
         />
       )
     default:
