@@ -44,7 +44,7 @@ const EditorCanvasIconHelper = ({ type }: Props) => {
       return (
         <img
           src='/slack.svg'
-          alt='Telegram'
+          alt='Slack'
           className='flex-shrink-0'
           width={30}
           height={30}
@@ -118,13 +118,28 @@ const EditorCanvasIconHelper = ({ type }: Props) => {
           size={30}
         />
       )
-    case 'Telegram':
+    case 'Telegram Connection':
     case 'Get Recent Message':
     case 'Send Message':
       return (
         <img
           src='/telegram.svg'
           alt='Telegram'
+          className='flex-shrink-0'
+          width={30}
+          height={30}
+        />
+      )
+      case 'Jira Connection':
+      case 'Get Many Jira Issues':
+      case  'Get Jira Issue':
+      case 'Create Jira Issue':
+      case 'Delete Jira Issue':
+      case 'Update Jira Issue':
+      return (
+        <img
+          src='/jira.svg'
+          alt='Jira'
           className='flex-shrink-0'
           width={30}
           height={30}

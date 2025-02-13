@@ -1,6 +1,7 @@
-import { getChatIdFromUpdates, sendMessageToTelegram } from '@/utils/telegram';
+import axios from 'axios';
 
-const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || ''; 
+const TELEGRAM_API_URL = process.env.TELEGRAM_API_URL || '';
+const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '';
 
 export async function POST(req: Request) {
   try {
@@ -13,13 +14,42 @@ export async function POST(req: Request) {
         { status: 400, headers: { 'Content-Type': 'application/json' } }
       );
     }
-    const chatId = await getChatIdFromUpdates(TELEGRAM_BOT_TOKEN);
 
-    const result = await sendMessageToTelegram(TELEGRAM_BOT_TOKEN, chatId, message);
-    return new Response(
-      JSON.stringify({ success: true, result }),
-      { status: 200, headers: { 'Content-Type': 'application/json' } }
-    );
+    // Get chatId from Telegram updates
+    const getChatIdUrl = `${TELEGRAM_API_URL}${TELEGRAM_BOT_TOKEN}/getUpdates`;
+
+    const getChatIdResponse = await axios.get(getChatIdUrl);
+    const getChatIdData = getChatIdResponse.data;
+
+    if (getChatIdData.ok && getChatIdData.result.length > 0) {
+      const chatId = getChatIdData.result[0]?.message?.chat?.id; 
+
+      if (!chatId) {
+        throw new Error('No chat_id found in the updates.');
+      }
+
+      // Send message to Telegram chat
+      const sendMessageUrl = `${TELEGRAM_API_URL}${TELEGRAM_BOT_TOKEN}/sendMessage`;
+      const sendMessageBody = { chat_id: chatId, text: message };
+
+      const sendMessageResponse = await axios.post(sendMessageUrl, sendMessageBody, {
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      const sendMessageData = sendMessageResponse.data;
+
+      if (sendMessageData.ok) {
+        return new Response(
+          JSON.stringify({ success: true, result: sendMessageData.result }),
+          { status: 200, headers: { 'Content-Type': 'application/json' } }
+        );
+      } else {
+        throw new Error('Failed to send message.');
+      }
+    } else {
+      throw new Error('Failed to fetch updates or no messages yet.');
+    }
+
   } catch (error: unknown) {
     console.error("Error occurred:", error);
     return new Response(

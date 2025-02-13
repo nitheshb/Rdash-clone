@@ -70,68 +70,10 @@ export const CustomWebhookEventF = async () => {
   console.log("Sending data via CustomWebhookEventF End...");
 };
 
-export const TgetRecentMessageF = async () => {
-  console.log("Fetching recent message from Telegram...");
-  try {
-    const response = await fetch("/api/telegram/getRecentMessage", {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    });
-
-    if (!response.ok) {
-      throw new Error(`API Error: ${response.status} ${response.statusText}`);
-    }
-
-    const data = await response.json();
-    console.log("Telegram Recent Message Response:", data.message?.text);
-    return data.message?.text || "No new messages found.";
-  } catch (error) {
-    console.error("Error fetching recent message:", error);
-    throw error;
-  }
+export const JiraConnectionF = async () => {
+  console.log("Sending data via JiraConnectionF Start...");
+  await new Promise((resolve) => setTimeout(resolve, 2000));
+  console.log("Sending data via JiraConnectionF End...");
 };
 
-export const TsendMessageF = async (message: string) => {
-  console.log("Sending message to Telegram:", message);
-  try {
-    const response = await fetch("/api/telegram/sendMessage", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message }),
-    });
 
-    if (!response.ok) {
-      throw new Error(`API Error: ${response.status} ${response.statusText}`);
-    }
-
-    const data = await response.json();
-    console.log("Telegram Send Message Response:", data.result.text);
-    return data.result.text;
-  } catch (error) {
-    console.error("Error sending message:", error);
-    throw error;
-  }
-};
-
-export const CopenaiResponseF = async (message: string) => {
-  console.log("Fetching OpenAI response with:", message);
-  try {
-      const response = await fetch("/api/openai", {
-          method: "POST",
-          headers: {
-              "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ message }),
-      });
-      if (!response.ok) {
-        throw new Error(`API Error: ${response.status} ${response.statusText}`);
-      }
-
-      const data = await response.json();
-      console.log("OpenAI Response:", data.response);
-      return data.response || "No response text found.";
-  } catch (error) {
-      console.error("Error fetching OpenAI response:", error);
-      throw error;
-  }
-};

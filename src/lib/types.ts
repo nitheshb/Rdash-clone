@@ -11,7 +11,7 @@ export const WorkflowFormSchema = z.object({
   description: z.string().min(1, 'Required'),
 })
 
-export type ConnectionTypes = 'Google Drive' | 'Notion' | 'Slack' | 'Discord' | 'Telegram'
+export type ConnectionTypes = 'Google Drive' | 'Notion' | 'Slack' | 'Discord' | 'Telegram' | 'Jira'
 
 export type Connection = {
   title: ConnectionTypes
@@ -36,9 +36,15 @@ export type EditorCanvasTypes =
   | 'Action'
   | 'Wait'
   | 'Discord'
-  | 'Telegram'
+  | 'Telegram Connection'
   | 'Get Recent Message'
   | 'Send Message'
+  | 'Jira Connection'
+  | 'Get Many Jira Issues'
+  | 'Get Jira Issue'
+  | 'Create Jira Issue'
+  | 'Delete Jira Issue'
+  | 'Update Jira Issue'
 
 export type EditorCanvasStatus = 'idle' | 'loading' | 'success' | 'failure';
 

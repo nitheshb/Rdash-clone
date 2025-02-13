@@ -29,8 +29,10 @@ import { EditorCanvasDefaultCardTypes } from '@/lib/constant'
 import FlowInstance from './flow-instance'
 import EditorCanvasSidebar from './editor-canvas-sidebar'
 import { onGetNodesEdges } from '../../../_actions/workflow-connections'
-import { SquarePlus } from 'lucide-react'
+import { Settings } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { onCreateNodesEdges, onFlowPublish } from '../_actions/workflow-connections'
+import { useNodeConnections } from '@/providers/connections-provider'
 
 
 type Props = {}
@@ -50,6 +52,8 @@ const EditorCanvas = (props: Props) => {
   const [loading, setLoading] = useState<boolean>(false)
 
   const pathname = usePathname()
+  const [isFlow, setIsFlow] = useState([])
+  const { nodeConnection } = useNodeConnections()
 
   const handleClose = () => {
     setClose(true)
@@ -177,9 +181,15 @@ const EditorCanvas = (props: Props) => {
       'Custom Webhook': EditorCanvasCardSingle,
       'Google Calendar': EditorCanvasCardSingle,
       Wait: EditorCanvasCardSingle,
-      Telegram: EditorCanvasCardSingle,
+      'Telegram Connection': EditorCanvasCardSingle,
       'Get Recent Message': EditorCanvasCardSingle,
       'Send Message': EditorCanvasCardSingle,
+      'Jira Connection': EditorCanvasCardSingle,
+      'Get Many Jira Issues': EditorCanvasCardSingle,
+      'Get Jira Issue': EditorCanvasCardSingle,
+      'Create Jira Issue': EditorCanvasCardSingle,
+      'Delete Jira Issue': EditorCanvasCardSingle,
+      'Update Jira Issue': EditorCanvasCardSingle,
     }),
     []
   )
@@ -195,34 +205,68 @@ const EditorCanvas = (props: Props) => {
     setIsWorkFlowLoading(false)
   }
 
+  const onFlowAutomation = useCallback(async () => {
+    const flow = await onCreateNodesEdges(
+      pathname.split('/').pop()!,
+      JSON.stringify(nodes),
+      JSON.stringify(edges),
+      JSON.stringify(isFlow)
+    )
+
+    if (flow) toast.message(flow.message)
+  }, [nodeConnection])
+
+  const onPublishWorkflow = useCallback(async () => {
+    const response = await onFlowPublish(pathname.split('/').pop()!, true)
+    if (response) toast.message(response)
+  }, [])
+
+  const onAutomateFlow = async () => {
+      const flows: any = []
+      const connectedEdges = edges.map((edge) => edge.target)
+      connectedEdges.map((target) => {
+        nodes.map((node) => {
+          if (node.id === target) {
+            flows.push(node.type)
+          }
+        })
+      })
+  
+      setIsFlow(flows)
+    }
+  
+    useEffect(() => {
+      onAutomateFlow()
+    }, [edges])
+
   const onTestWorkFlow = async () => {
     setLoading(true);
     const executedNodes = new Set<string>();
     let nodeResponses: Record<string, any> = {};
-  
+
     setNodes((prevNodes) =>
       prevNodes.map((node) => ({ ...node, data: { ...node.data, status: 'idle' } }))
     );
-  
+
     const executeNode = async (node: any, input?: any) => {
       if (!node || executedNodes.has(node.id)) return true;
-  
+
       executedNodes.add(node.id);
       setNodes((prevNodes) =>
         prevNodes.map((n) => (n.id === node.id ? { ...n, data: { ...n.data, status: 'loading' } } : n))
       );
-  
+
       try {
         const response = node.myFunction.length > 0
           ? await Promise.resolve(node.myFunction(input))
           : await Promise.resolve(node.myFunction());
-  
+
         nodeResponses[node.id] = response;
-  
+
         setNodes((prevNodes) =>
           prevNodes.map((n) => (n.id === node.id ? { ...n, data: { ...n.data, status: 'success' } } : n))
         );
-  
+
         return true;
       } catch (error) {
         setNodes((prevNodes) =>
@@ -232,21 +276,21 @@ const EditorCanvas = (props: Props) => {
         return false;
       }
     };
-  
+
     for (const edge of edges) {
       const sourceNode = nodes.find((node) => node.id === edge.source);
       const targetNode = nodes.find((node) => node.id === edge.target);
-  
+
       if (sourceNode && !(await executeNode(sourceNode))) return;
-  
+
       if (targetNode) {
         const sourceResponse = sourceNode ? nodeResponses[sourceNode.id] : undefined;
-  
+
         if (nodes.find((n) => n.id === edge.source)?.data.status !== 'failure') {
           if (!(await executeNode(targetNode, sourceResponse))) {
-              setLoading(false);
-              return;
-            }
+            setLoading(false);
+            return;
+          }
         } else {
           console.warn(`Skipping execution for node ${targetNode.id} as previous node failed.`);
           setLoading(false);
@@ -269,15 +313,32 @@ const EditorCanvas = (props: Props) => {
             style={{ width: '100%', height: '100%', paddingBottom: '70px' }}
             className="relative"
           >
-            <div className="absolute bottom-5 left-1/2 transform -translate-x-1/2">
-              <Button
-                disabled={loading || edges.length < 1}
-                onClick={onTestWorkFlow}> {loading ? "Testing" : "Test Workflow"} </Button>
+            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2">
+              <div className="flex flex-col gap-2">
+                <div className="flex gap-3 p-4">
+                  <Button
+                    onClick={onFlowAutomation}
+                    disabled={isFlow.length < 1}
+                  >
+                    Save
+                  </Button>
+                  <Button
+                    disabled={isFlow.length < 1}
+                    onClick={onPublishWorkflow}
+                  >
+                    Publish
+                  </Button>
+
+                  <Button
+                    disabled={loading || isFlow.length < 1}
+                    onClick={onTestWorkFlow}> {loading ? "Testing" : "Test Workflow"} </Button>
+                </div>
+              </div>
             </div>
             {close && (
               <button className="absolute top-10 right-10 text-black hover:text-red-500 dark:text-white text-2xl cursor-pointer z-50"
                 onClick={handleOpen}>
-                <SquarePlus className='w-10 h-10' />
+                <Settings className='w-6 h-6' />
               </button>
             )}
             {isWorkFlowLoading ? (
@@ -358,12 +419,8 @@ const EditorCanvas = (props: Props) => {
               </svg>
             </div>
           ) : (
-            <FlowInstance
-              edges={edges}
-              nodes={nodes}
-              onClose={handleClose}
-            >
-              <EditorCanvasSidebar nodes={nodes} />
+            <FlowInstance>
+              <EditorCanvasSidebar nodes={nodes} onClose={handleClose}/>
             </FlowInstance>
           )}
         </ResizablePanel>

@@ -40,6 +40,12 @@ export type ConnectionProviderProps = {
     content: string
   }
   setTelegramNode: React.Dispatch<React.SetStateAction<any>>
+  jiraNode: {
+    jiraApiToken: string
+    jiraDomain: string
+    projectKey: string
+  }
+  setJiraNode: React.Dispatch<React.SetStateAction<any>>
   setWorkFlowTemplate: React.Dispatch<
     React.SetStateAction<{
       discord?: string
@@ -89,12 +95,18 @@ const InitialValues: ConnectionProviderProps = {
     botAccessToken: '',
     content: '',
   },
+  jiraNode: {
+    jiraApiToken: '',
+    jiraDomain: '',
+    projectKey: '',
+  },
   isLoading: false,
   setGoogleNode: () => undefined,
   setDiscordNode: () => undefined,
   setNotionNode: () => undefined,
   setSlackNode: () => undefined,
   setTelegramNode: () => undefined,
+  setJiraNode: () => undefined,
   setIsLoading: () => undefined,
   setWorkFlowTemplate: () => undefined,
 }
@@ -108,6 +120,7 @@ export const ConnectionsProvider = ({ children }: ConnectionWithChildProps) => {
   const [notionNode, setNotionNode] = useState(InitialValues.notionNode)
   const [slackNode, setSlackNode] = useState(InitialValues.slackNode)
   const [telegramNode, setTelegramNode] = useState(InitialValues.telegramNode)
+  const [jiraNode, setJiraNode] = useState(InitialValues.jiraNode)
   const [isLoading, setIsLoading] = useState(InitialValues.isLoading)
   const [workflowTemplate, setWorkFlowTemplate] = useState(
     InitialValues.workflowTemplate
@@ -124,6 +137,8 @@ export const ConnectionsProvider = ({ children }: ConnectionWithChildProps) => {
     setSlackNode,
     telegramNode,
     setTelegramNode,
+    jiraNode,
+    setJiraNode,
     isLoading,
     setIsLoading,
     workflowTemplate,

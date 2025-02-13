@@ -28,12 +28,14 @@ import {
 import RenderConnectionAccordion from './render-connection-accordion'
 import RenderOutputAccordion from './render-output-accordian'
 import { useFuzzieStore } from '@/store'
+import { X } from 'lucide-react'
 
 type Props = {
   nodes: EditorNodeType[]
+  onClose: () => void
 }
 
-const EditorCanvasSidebar = ({ nodes }: Props) => {
+const EditorCanvasSidebar = ({ nodes, onClose }: Props) => {
   const { state } = useEditor()
   const { nodeConnection } = useNodeConnections()
   const { googleFile, setSlackChannels } = useFuzzieStore()
@@ -58,14 +60,20 @@ const EditorCanvasSidebar = ({ nodes }: Props) => {
         defaultValue="actions"
         className="h-screen overflow-scroll pb-24"
       >
-        <TabsList className="bg-transparent">
+        <TabsList className="bg-transparent px-3 py-7 flex justify-between items-center">
+        <div className="flex gap-4">
           <TabsTrigger value="actions">Actions</TabsTrigger>
           <TabsTrigger value="settings">Settings</TabsTrigger>
+          </div>
+          <button className="text-gray-500 hover:text-black text-2xl dark:hover:text-white"
+            onClick={onClose}>
+            <X />
+          </button>
         </TabsList>
         <Separator />
         <TabsContent
           value="actions"
-          className="flex flex-col gap-4 p-4 mb-14"
+          className="flex flex-col gap-4 p-4"
         >
           {Object.entries(EditorCanvasDefaultCardTypes)
             .filter(
@@ -94,7 +102,7 @@ const EditorCanvasSidebar = ({ nodes }: Props) => {
         </TabsContent>
         <TabsContent
           value="settings"
-          className="-mt-14"
+          className="-mt-7"
         >
           <div className="px-2 py-4 text-center text-xl font-bold">
             {state.editor.selectedNode.data.title}

@@ -67,36 +67,37 @@ const EditorCanvasCardSingle = ({ data }: { data: EditorCanvasCardType }) => {
         </Badge> */}
 
         <div
-          className='absolute right-6 top-3 h-2 w-2 rounded-full'>
+          className='absolute right-3 top-2 h-2 w-2 rounded-full'>
             {data.status === 'success' && 
             <>
               <Badge
           variant="secondary"
-          className="absolute right-7 top-1"
+          className="absolute right-2 gap-1"
         >
+          <Check className='text-green-500'/>
           Completed
         </Badge>
-        <Check className='text-green-500'/>
+        
         </>}
             {data.status === 'loading' && 
             <>
             <Badge
           variant="secondary"
-          className="absolute right-7 top-1"
+          className="absolute right-2 gap-1"
         >
+          <LoaderCircle className="w-6 h-6 text-orange-500 animate-spin" />
           Running
         </Badge>
-            <LoaderCircle className="w-6 h-6 text-orange-500 animate-spin" />
             </>}
             {data.status === 'failure' && 
             <>
             <Badge
           variant="secondary"
-          className="absolute right-7 top-1"
+          className="absolute right-2 gap-1"
         >
+          <X className='text-red-500'/>
           Failed
-        </Badge>
-            <X className='text-red-500'/>
+        </Badge>            
             </>}
           </div>
       </Card>
