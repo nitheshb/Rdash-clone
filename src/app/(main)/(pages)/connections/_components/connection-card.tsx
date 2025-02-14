@@ -1,24 +1,25 @@
 "use client";
-import { ConnectionTypes } from '@/lib/types'
-import React, { useState } from 'react'
+import { ConnectionTypes } from "@/lib/types";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card'
-import Image from 'next/image'
-import Link from 'next/link'
-import TelegramConnectForm from '@/components/forms/telegram-connect-form';
+} from "@/components/ui/card";
+import Image from "next/image";
+import Link from "next/link";
+import TelegramConnectForm from "@/components/forms/telegram-connect-form";
+import { useSearchParams } from "next/navigation";
 
 type Props = {
-  type: ConnectionTypes
-  icon: string
-  title: ConnectionTypes
-  description: string
-  callback?: () => void
-  connected: {} & any
-}
+  type: ConnectionTypes;
+  icon: string;
+  title: ConnectionTypes;
+  description: string;
+  callback?: () => void;
+  connected: {} & any;
+};
 
 const ConnectionCard = ({
   description,
@@ -29,8 +30,18 @@ const ConnectionCard = ({
 }: Props) => {
   const [showTelegramForm, setShowTelegramForm] = useState(false);
 
+  const searchParams = useSearchParams();
+  const outlookToken = searchParams.get("outlook_token");
+
+  useEffect(() => {
+    if (outlookToken) {
+      localStorage.setItem("outlook_access_token", outlookToken);
+      window.history.replaceState(null, "", "/connections");
+    }
+  }, [outlookToken]);
+
   const handleConnectClick = (e: React.MouseEvent) => {
-    if (title === 'Telegram') {
+    if (title === "Telegram") {
       e.preventDefault();
       setShowTelegramForm(true);
     }
@@ -60,24 +71,28 @@ const ConnectionCard = ({
         ) : (
           <Link
             href={
-              title == 'Discord'
+              title == "Discord"
                 ? process.env.NEXT_PUBLIC_DISCORD_REDIRECT!
-                : title == 'Notion'
+                : title == "Notion"
                 ? process.env.NEXT_PUBLIC_NOTION_AUTH_URL!
-                : title == 'Slack'
+                : title == "Slack"
                 ? process.env.NEXT_PUBLIC_SLACK_REDIRECT!
-                : '#'
+                : title === "Outlook"
+                ? process.env.NEXT_PUBLIC_OUTLOOK_AUTH_URL!
+                : "#"
             }
-            onClick={title === 'Telegram' ? handleConnectClick : undefined}
+            onClick={title === "Telegram" ? handleConnectClick : undefined}
             className=" rounded-lg bg-primary p-2 font-bold text-primary-foreground"
           >
             Connect
           </Link>
         )}
       </div>
-      {showTelegramForm && <TelegramConnectForm onClose={() => setShowTelegramForm(false)} />}
+      {showTelegramForm && (
+        <TelegramConnectForm onClose={() => setShowTelegramForm(false)} />
+      )}
     </Card>
-  )
-}
+  );
+};
 
-export default ConnectionCard
+export default ConnectionCard;

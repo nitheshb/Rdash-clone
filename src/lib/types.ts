@@ -1,107 +1,124 @@
-import { ConnectionProviderProps } from '@/providers/connections-provider'
-import { z } from 'zod'
+import { ConnectionProviderProps } from "@/providers/connections-provider";
+import { z } from "zod";
 
 export const EditUserProfileSchema = z.object({
-  email: z.string().email('Required'),
-  name: z.string().min(1, 'Required'),
-})
+  email: z.string().email("Required"),
+  name: z.string().min(1, "Required"),
+});
 
 export const WorkflowFormSchema = z.object({
-  name: z.string().min(1, 'Required'),
-  description: z.string().min(1, 'Required'),
-})
+  name: z.string().min(1, "Required"),
+  description: z.string().min(1, "Required"),
+});
 
-export type ConnectionTypes = 'Google Drive' | 'Notion' | 'Slack' | 'Discord' | 'Telegram' | 'Jira'
+export type ConnectionTypes =
+  | "Google Drive"
+  | "Notion"
+  | "Slack"
+  | "Discord"
+  | "Telegram"
+  | "Jira"
+  | "Gmail"
+  | "Outlook";
 
 export type Connection = {
-  title: ConnectionTypes
-  description: string
-  image: string
-  connectionKey: keyof ConnectionProviderProps
-  accessTokenKey?: string
-  alwaysTrue?: boolean
-  slackSpecial?: boolean
-}
+  title: ConnectionTypes;
+  description: string;
+  image: string;
+  connectionKey: keyof ConnectionProviderProps;
+  accessTokenKey?: string;
+  alwaysTrue?: boolean;
+  slackSpecial?: boolean;
+};
 
 export type EditorCanvasTypes =
-  | 'Email'
-  | 'Condition'
-  | 'Open AI'
-  | 'Slack'
-  | 'Google Drive'
-  | 'Notion'
-  | 'Custom Webhook'
-  | 'Google Calendar'
-  | 'Trigger'
-  | 'Action'
-  | 'Wait'
-  | 'Discord'
-  | 'Telegram Connection'
-  | 'Get Recent Message'
-  | 'Send Message'
-  | 'Jira Connection'
-  | 'Get Many Jira Issues'
-  | 'Get Jira Issue'
-  | 'Create Jira Issue'
-  | 'Delete Jira Issue'
-  | 'Update Jira Issue'
+  | "Email"
+  | "Condition"
+  | "Open AI"
+  | "Slack"
+  | "Google Drive"
+  | "Notion"
+  | "Custom Webhook"
+  | "Google Calendar"
+  | "Trigger"
+  | "Action"
+  | "Wait"
+  | "Discord"
+  | "Telegram Connection"
+  | "Get Recent Message"
+  | "Send Message"
+  | "Jira Connection"
+  | "Get Many Jira Issues"
+  | "Get Jira Issue"
+  | "Create Jira Issue"
+  | "Delete Jira Issue"
+  | "Update Jira Issue"
+  | "Connect To Gmail"
+  | "Get Latest Email"
+  | "Send Message To Draft"
+  | "Connect To Outlook"
+  | "Get a message outlook"
+  | "Get many messages outlook"
+  | "Create a draft outlook"
+  | "Get the draft outlook"
+  | "Delete draft outlook";
 
-export type EditorCanvasStatus = 'idle' | 'loading' | 'success' | 'failure';
+export type EditorCanvasStatus = "idle" | "loading" | "success" | "failure";
 
 export type EditorCanvasCardType = {
-  title: string
-  description: string
-  completed: boolean
-  current: boolean
-  metadata: any
-  type: EditorCanvasTypes
+  title: string;
+  description: string;
+  completed: boolean;
+  current: boolean;
+  metadata: any;
+  type: EditorCanvasTypes;
   status: EditorCanvasStatus;
-}
+};
 
 export type EditorNodeType = {
-  id: string
-  type: EditorCanvasCardType['type']
-  myFunction: () => void
+  id: string;
+  type: EditorCanvasCardType["type"];
+  myFunction: () => void;
   position: {
-    x: number
-    y: number
-  }
-  data: EditorCanvasCardType
-}
+    x: number;
+    y: number;
+  };
+  data: EditorCanvasCardType;
+};
 
-export type EditorNode = EditorNodeType
+export type EditorNode = EditorNodeType;
 
 export type EditorActions =
   | {
-    type: 'LOAD_DATA'
-    payload: {
-      elements: EditorNode[]
-      edges: {
-        id: string
-        source: string
-        target: string
-      }[]
+      type: "LOAD_DATA";
+      payload: {
+        elements: EditorNode[];
+        edges: {
+          id: string;
+          source: string;
+          target: string;
+        }[];
+      };
     }
-  }
   | {
-    type: 'UPDATE_NODE'
-    payload: {
-      elements: EditorNode[]
+      type: "UPDATE_NODE";
+      payload: {
+        elements: EditorNode[];
+      };
     }
-  }
-  | { type: 'REDO' }
-  | { type: 'UNDO' }
+  | { type: "REDO" }
+  | { type: "UNDO" }
   | {
-    type: 'SELECTED_ELEMENT'
-    payload: {
-      element: EditorNode
-    }
-  }
+      type: "SELECTED_ELEMENT";
+      payload: {
+        element: EditorNode;
+      };
+    };
 
 export const nodeMapper: Record<string, string> = {
-  Notion: 'notionNode',
-  Slack: 'slackNode',
-  Discord: 'discordNode',
-  Telegram: 'telegramNode',
-  'Google Drive': 'googleNode',
-}
+  Notion: "notionNode",
+  Slack: "slackNode",
+  Discord: "discordNode",
+  Telegram: "telegramNode",
+  "Google Drive": "googleNode",
+};

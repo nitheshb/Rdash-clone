@@ -76,4 +76,14 @@ export const JiraConnectionF = async () => {
   console.log("Sending data via JiraConnectionF End...");
 };
 
+export const GconnectGmailF = async () => {
+  console.log("Sending data via GconnectGmailF Start...");
+  await new Promise((resolve) => setTimeout(resolve, 2000));
+  console.log("Sending data via GconnectGmailF End...");
+};
 
+export const GconnectOutlookF = async () => {
+  console.log("Sending data via GconnectOutlookF Start...");
+  await new Promise((resolve) => setTimeout(resolve, 2000));
+  console.log("Sending data via GconnectOutlookF End...");
+};

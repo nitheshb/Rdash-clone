@@ -1,31 +1,31 @@
-import { EditorCanvasCardType } from '@/lib/types'
-import { useEditor } from '@/providers/editor-provider'
-import React, { useMemo } from 'react'
-import { Position, useNodeId } from 'reactflow'
-import EditorCanvasIconHelper from './editor-canvas-card-icon-hepler'
-import CustomHandle from './custom-handle'
-import { Badge } from '@/components/ui/badge'
-import {Check, LoaderCircle, X} from 'lucide-react'
+import { EditorCanvasCardType } from "@/lib/types";
+import { useEditor } from "@/providers/editor-provider";
+import React, { useMemo } from "react";
+import { Position, useNodeId } from "reactflow";
+import EditorCanvasIconHelper from "./editor-canvas-card-icon-hepler";
+import CustomHandle from "./custom-handle";
+import { Badge } from "@/components/ui/badge";
+import { Check, LoaderCircle, X } from "lucide-react";
 
 import {
   Card,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card'
+} from "@/components/ui/card";
 
-type Props = {}
+type Props = {};
 
 const EditorCanvasCardSingle = ({ data }: { data: EditorCanvasCardType }) => {
-  const { dispatch, state } = useEditor()
-  const nodeId = useNodeId()
+  const { dispatch, state } = useEditor();
+  const nodeId = useNodeId();
   const logo = useMemo(() => {
-    return <EditorCanvasIconHelper type={data.type} />
-  }, [data])  
+    return <EditorCanvasIconHelper type={data.type} />;
+  }, [data]);
 
   return (
     <>
-      {data.type !== 'Trigger' && data.type !== 'Google Drive' && (
+      {data.type !== "Trigger" && data.type !== "Google Drive" && (
         <CustomHandle
           type="target"
           position={Position.Top}
@@ -34,15 +34,15 @@ const EditorCanvasCardSingle = ({ data }: { data: EditorCanvasCardType }) => {
       )}
       <Card
         onClick={(e) => {
-          e.stopPropagation()
-          const val = state.editor.elements.find((n) => n.id === nodeId)
+          e.stopPropagation();
+          const val = state.editor.elements.find((n) => n.id === nodeId);
           if (val)
             dispatch({
-              type: 'SELECTED_ELEMENT',
+              type: "SELECTED_ELEMENT",
               payload: {
                 element: val,
               },
-            })
+            });
         }}
         className="relative max-w-[400px] dark:border-muted-foreground/70"
       >
@@ -66,48 +66,36 @@ const EditorCanvasCardSingle = ({ data }: { data: EditorCanvasCardType }) => {
           {data.type}
         </Badge> */}
 
-        <div
-          className='absolute right-3 top-2 h-2 w-2 rounded-full'>
-            {data.status === 'success' && 
+        <div className="absolute right-3 top-2 h-2 w-2 rounded-full">
+          {data.status === "success" && (
             <>
-              <Badge
-          variant="secondary"
-          className="absolute right-2 gap-1"
-        >
-          <Check className='text-green-500'/>
-          Completed
-        </Badge>
-        
-        </>}
-            {data.status === 'loading' && 
+              <Badge variant="secondary" className="absolute right-2 gap-1">
+                <Check className="text-green-500" />
+                Completed
+              </Badge>
+            </>
+          )}
+          {data.status === "loading" && (
             <>
-            <Badge
-          variant="secondary"
-          className="absolute right-2 gap-1"
-        >
-          <LoaderCircle className="w-6 h-6 text-orange-500 animate-spin" />
-          Running
-        </Badge>
-            </>}
-            {data.status === 'failure' && 
+              <Badge variant="secondary" className="absolute right-2 gap-1">
+                <LoaderCircle className="w-6 h-6 text-orange-500 animate-spin" />
+                Running
+              </Badge>
+            </>
+          )}
+          {data.status === "failure" && (
             <>
-            <Badge
-          variant="secondary"
-          className="absolute right-2 gap-1"
-        >
-          <X className='text-red-500'/>
-          Failed
-        </Badge>            
-            </>}
-          </div>
+              <Badge variant="secondary" className="absolute right-2 gap-1">
+                <X className="text-red-500" />
+                Failed
+              </Badge>
+            </>
+          )}
+        </div>
       </Card>
-      <CustomHandle
-        type="source"
-        position={Position.Bottom}
-        id="a"
-      />
+      <CustomHandle type="source" position={Position.Bottom} id="a" />
     </>
-  )
-}
+  );
+};
 
-export default EditorCanvasCardSingle
+export default EditorCanvasCardSingle;
