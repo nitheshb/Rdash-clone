@@ -200,7 +200,7 @@ export const EditorCanvasDefaultCardTypes = {
   "Get Recent Message": {
     description: "Retrieve recent messages from Telegram",
     type: "Action",
-    myFunction: () => TgetRecentMessageF(),
+    myFunction: TgetRecentMessageF,
     status: "idle",
   },
   "Send Message": {
