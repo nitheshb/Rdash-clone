@@ -187,11 +187,27 @@ const EditorCanvas = (props: Props) => {
       "Get Recent Message": EditorCanvasCardSingle,
       "Send Message": EditorCanvasCardSingle,
       "Jira Connection": EditorCanvasCardSingle,
-      "Get Many Jira Issues": EditorCanvasCardSingle,
-      "Get Jira Issue": EditorCanvasCardSingle,
-      "Create Jira Issue": EditorCanvasCardSingle,
-      "Delete Jira Issue": EditorCanvasCardSingle,
-      "Update Jira Issue": EditorCanvasCardSingle,
+      "Get Many Issues": EditorCanvasCardSingle,
+      "Get an Issue": EditorCanvasCardSingle,
+      "Create an Issue": EditorCanvasCardSingle,
+      "Delete an Issue": EditorCanvasCardSingle,
+      "Update an Issue": EditorCanvasCardSingle,
+      "Get Issue Status": EditorCanvasCardSingle,
+      "Get an Issue Changelog": EditorCanvasCardSingle,
+      "Create Email Notification": EditorCanvasCardSingle,
+      "Add an Attachment": EditorCanvasCardSingle,
+      "Get an Attachment": EditorCanvasCardSingle,
+      "Get Many Attachments": EditorCanvasCardSingle,
+      "Remove an Attachment": EditorCanvasCardSingle,
+      "Add a Comment": EditorCanvasCardSingle,
+      "Get a Comment": EditorCanvasCardSingle,
+      "Get Many Comments": EditorCanvasCardSingle,
+      "Remove a Comment": EditorCanvasCardSingle,
+      "Update a Comment": EditorCanvasCardSingle,
+      "Create a User": EditorCanvasCardSingle,
+      "Delete a User": EditorCanvasCardSingle,
+      "Get a User": EditorCanvasCardSingle,
+      "Get all Users": EditorCanvasCardSingle,
       "Connect To Gmail": EditorCanvasCardSingle,
       "Get Latest Email": EditorCanvasCardSingle,
       "Send Message To Draft": EditorCanvasCardSingle,
@@ -435,7 +451,7 @@ const EditorCanvas = (props: Props) => {
       </ResizablePanel>
       <ResizableHandle />
       {!close && (
-        <ResizablePanel defaultSize={35} className="relative sm:block">
+        <ResizablePanel defaultSize={30} className="relative sm:block">
           {isWorkFlowLoading ? (
             <div className="absolute flex h-full w-full items-center justify-center">
               <svg

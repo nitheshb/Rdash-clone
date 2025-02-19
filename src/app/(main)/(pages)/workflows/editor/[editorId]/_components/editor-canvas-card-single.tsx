@@ -66,7 +66,7 @@ const EditorCanvasCardSingle = ({ data }: { data: EditorCanvasCardType }) => {
           {data.type}
         </Badge> */}
 
-        <div className="absolute right-3 top-2 h-2 w-2 rounded-full">
+        <div className="absolute right-1 top-2 h-2 w-2 rounded-full">
           {data.status === "success" && (
             <>
               <Badge variant="secondary" className="absolute right-2 gap-1">

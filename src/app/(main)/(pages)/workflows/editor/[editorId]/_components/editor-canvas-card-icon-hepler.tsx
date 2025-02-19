@@ -107,11 +107,27 @@ const EditorCanvasIconHelper = ({ type }: Props) => {
         />
       );
     case "Jira Connection":
-    case "Get Many Jira Issues":
-    case "Get Jira Issue":
-    case "Create Jira Issue":
-    case "Delete Jira Issue":
-    case "Update Jira Issue":
+    case "Get Many Issues":
+    case "Get an Issue":
+    case "Create an Issue":
+    case "Delete an Issue":
+    case "Update an Issue":
+    case "Get Issue Status":
+    case "Get an Issue Changelog":
+    case "Create Email Notification":
+    case "Add an Attachment":
+    case "Get an Attachment":
+    case "Get Many Attachments":
+    case "Remove an Attachment":
+    case "Add a Comment":
+    case "Get a Comment":
+    case "Get Many Comments":
+    case "Remove a Comment":
+    case "Update a Comment":
+    case "Create a User":
+    case "Delete a User":
+    case "Get a User":
+    case "Get all Users":
       return (
         <Image
           src="/jira.svg"

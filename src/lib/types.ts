@@ -48,11 +48,27 @@ export type EditorCanvasTypes =
   | "Get Recent Message"
   | "Send Message"
   | "Jira Connection"
-  | "Get Many Jira Issues"
-  | "Get Jira Issue"
-  | "Create Jira Issue"
-  | "Delete Jira Issue"
-  | "Update Jira Issue"
+  | "Get Many Issues"
+  | "Get an Issue"
+  | "Create an Issue"
+  | "Delete an Issue"
+  | "Update an Issue"
+  | "Get Issue Status"
+  | "Get an Issue Changelog"
+  | "Create Email Notification"
+  | "Add an Attachment"
+  | "Get an Attachment"
+  | "Get Many Attachments"
+  | "Remove an Attachment"
+  | "Add a Comment"
+  | "Get a Comment"
+  | "Get Many Comments"
+  | "Remove a Comment"
+  | "Update a Comment"
+  | "Create a User"
+  | "Delete a User"
+  | "Get a User"
+  | "Get all Users"
   | "Connect To Gmail"
   | "Get Latest Email"
   | "Send Message To Draft"
@@ -73,6 +89,10 @@ export type EditorCanvasCardType = {
   metadata: any;
   type: EditorCanvasTypes;
   status: EditorCanvasStatus;
+};
+
+export type NodeActions = {
+  [key: string]: string[];
 };
 
 export type EditorNodeType = {

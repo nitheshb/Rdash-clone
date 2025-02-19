@@ -5,7 +5,7 @@ import Home from "@/components/icons/home";
 import Payment from "@/components/icons/payment";
 import Settings from "@/components/icons/settings";
 import Workflows from "@/components/icons/workflows";
-import { Connection } from "./types";
+import { Connection, NodeActions } from "./types";
 import {
   ActionEventF,
   ConditionCheckF,
@@ -24,11 +24,27 @@ import {
   WaitEventF,
 } from "./function-utils";
 import {
-  JcreateJiraIssueF,
-  JdeleteJiraIssueF,
-  JgetJiraIssueF,
-  JgetManyJiraIssuesF,
-  JupdateJiraIssueF,
+  JaddAttachmentF,
+  JaddCommentF,
+  JcreateEmailNotificationF,
+  JcreateIssueF,
+  JcreateUserF,
+  JdeleteIssueF,
+  JdeleteUserF,
+  JgetAllUsersF,
+  JgetAttachmentF,
+  JgetCommentF,
+  JgetIssueChangelogF,
+  JgetIssueF,
+  JgetIssueStatusF,
+  JgetManyAttachmentsF,
+  JgetManyCommentsF,
+  JgetManyIssuesF,
+  JgetUserF,
+  JremoveAttachmentF,
+  JremoveCommentF,
+  JupdateCommentF,
+  JupdateIssueF,
 } from "./jira-functions";
 import { TgetRecentMessageF, TsendMessageF } from "./telegram-functions";
 import { CopenaiResponseF } from "./openai-functions";
@@ -137,60 +153,6 @@ export const menuOptions = [
 ];
 
 export const EditorCanvasDefaultCardTypes = {
-  Email: {
-    description: "Send an email to a user",
-    type: "Action",
-    myFunction: GemailConnectionF,
-    status: "idle",
-  },
-  Condition: {
-    description: "Boolean operator that creates different conditions lanes.",
-    type: "Action",
-    myFunction: ConditionCheckF,
-    status: "idle",
-  },
-  "Open AI": {
-    description: "Use Open AI to summarize, respond, create and much more.",
-    type: "Action",
-    myFunction: CopenaiResponseF,
-    status: "idle",
-  },
-  Slack: {
-    description: "Send a notification to Slack",
-    type: "Action",
-    myFunction: SlackNotificationF,
-    status: "idle",
-  },
-  "Google Drive": {
-    description: "Connect with Google Drive for actions",
-    type: "Trigger",
-    myFunction: GoogleDriveActionF,
-    status: "idle",
-  },
-  Notion: {
-    description: "Create entries in Notion.",
-    type: "Action",
-    myFunction: NotionEntryF,
-    status: "idle",
-  },
-  "Custom Webhook": {
-    description: "Send data to an application via API.",
-    type: "Action",
-    myFunction: CustomWebhookEventF,
-    status: "idle",
-  },
-  Discord: {
-    description: "Post messages to Discord",
-    type: "Action",
-    myFunction: DiscordMessageF,
-    status: "idle",
-  },
-  "Google Calendar": {
-    description: "Create a calendar invite.",
-    type: "Action",
-    myFunction: GoogleCalendarEventF,
-    status: "idle",
-  },
   "Telegram Connection": {
     description: "Connect with Telegram for actions",
     type: "Trigger",
@@ -209,58 +171,142 @@ export const EditorCanvasDefaultCardTypes = {
     myFunction: TsendMessageF,
     status: "idle",
   },
+  "Open AI": {
+    description: "Use Open AI to summarize, respond, create and much more.",
+    type: "Trigger",
+    myFunction: CopenaiResponseF,
+    status: "idle",
+  },
   "Jira Connection": {
     description: "Connect with Jira for actions",
     type: "Trigger",
     myFunction: JiraConnectionF,
     status: "idle",
   },
-  "Get Many Jira Issues": {
+  "Get Many Issues": {
     description: "Get issues from Jira",
     type: "Action",
-    myFunction: JgetManyJiraIssuesF,
+    myFunction: JgetManyIssuesF,
     status: "idle",
   },
-  "Get Jira Issue": {
+  "Get an Issue": {
     description: "Get single issue from Jira",
     type: "Action",
-    myFunction: JgetJiraIssueF,
+    myFunction: JgetIssueF,
     status: "idle",
   },
-  "Create Jira Issue": {
+  "Create an Issue": {
     description: "Create an issue in Jira",
     type: "Action",
-    myFunction: JcreateJiraIssueF,
+    myFunction: JcreateIssueF,
     status: "idle",
   },
-  "Delete Jira Issue": {
+  "Delete an Issue": {
     description: "Delete an issue in Jira",
     type: "Action",
-    myFunction: JdeleteJiraIssueF,
+    myFunction: JdeleteIssueF,
     status: "idle",
   },
-  "Update Jira Issue": {
+  "Update an Issue": {
     description: "Update an issue in Jira",
     type: "Action",
-    myFunction: JupdateJiraIssueF,
+    myFunction: JupdateIssueF,
     status: "idle",
   },
-  Trigger: {
-    description: "An event that starts the workflow.",
-    type: "Trigger",
-    myFunction: TriggerEventF,
-    status: "idle",
-  },
-  Action: {
-    description: "An event after workflow begins",
+  "Get Issue Status": {
+    description: "Get the status of an jira issue",
     type: "Action",
-    myFunction: ActionEventF,
+    myFunction: JgetIssueStatusF,
     status: "idle",
   },
-  Wait: {
-    description: "Delay the next action.",
+  "Get an Issue Changelog": {
+    description: "Get an issue changelog from jira",
     type: "Action",
-    myFunction: WaitEventF,
+    myFunction: JgetIssueChangelogF,
+    status: "idle",
+  },
+  "Create Email Notification": {
+    description: "Create an email notification for an jira issue",
+    type: "Action",
+    myFunction: JcreateEmailNotificationF,
+    status: "idle",
+  },
+  "Add an Attachment": {
+    description: "Add an attachment to an issue",
+    type: "Action",
+    myFunction: JaddAttachmentF,
+    status: "idle",
+  },
+  "Get an Attachment": {
+    description: "Get an attachment from an issue",
+    type: "Action",
+    myFunction: JgetAttachmentF,
+    status: "idle",
+  },
+  "Get Many Attachments": {
+    description: "Get many issue attachments from jira",
+    type: "Action",
+    myFunction: JgetManyAttachmentsF,
+    status: "idle",
+  },
+  "Remove an Attachment": {
+    description: "Remove an attachment from jira",
+    type: "Action",
+    myFunction: JremoveAttachmentF,
+    status: "idle",
+  },
+  "Add a Comment": {
+    description: "Add a comment in jira",
+    type: "Action",
+    myFunction: JgetCommentF,
+    status: "idle",
+  },
+  "Get a Comment": {
+    description: "Get a comment from jira",
+    type: "Action",
+    myFunction: JgetCommentF,
+    status: "idle",
+  },
+  "Get Many Comments": {
+    description: "Get many comments from jira",
+    type: "Action",
+    myFunction: JgetManyCommentsF,
+    status: "idle",
+  },
+  "Remove a Comment": {
+    description: "Remove a comment from jira",
+    type: "Action",
+    myFunction: JremoveCommentF,
+    status: "idle",
+  },
+  "Update a Comment": {
+    description: "Update a comment in jira",
+    type: "Action",
+    myFunction: JupdateCommentF,
+    status: "idle",
+  },
+  "Create a User": {
+    description: "Create a user in jira",
+    type: "Action",
+    myFunction: JcreateUserF,
+    status: "idle",
+  },
+  "Delete a User": {
+    description: "Delete a user in jira",
+    type: "Action",
+    myFunction: JdeleteUserF,
+    status: "idle",
+  },
+  "Get a User": {
+    description: "Get a user in jira",
+    type: "Action",
+    myFunction: JgetUserF,
+    status: "idle",
+  },
+  "Get all Users": {
+    description: "Get all users in jira",
+    type: "Action",
+    myFunction: JgetAllUsersF,
     status: "idle",
   },
   ["Connect To Gmail"]: {
@@ -287,7 +333,7 @@ export const EditorCanvasDefaultCardTypes = {
     type: "Trigger",
     myFunction: GconnectOutlookF,
     status: "idle",
-  },
+  }, 
   ["Get a message outlook"]: {
     description: "Get the Latest Unread Email",
     type: "Action",
@@ -318,7 +364,80 @@ export const EditorCanvasDefaultCardTypes = {
     myFunction: OdeleteDraftOutlookF,
     status: "idle",
   },
+  Email: {
+    description: "Send an email to a user",
+    type: "Action",
+    myFunction: GemailConnectionF,
+    status: "idle",
+  },
+  Slack: {
+    description: "Send a notification to Slack",
+    type: "Trigger",
+    myFunction: SlackNotificationF,
+    status: "idle",
+  },
+  "Google Drive": {
+    description: "Connect with Google Drive for actions",
+    type: "Trigger",
+    myFunction: GoogleDriveActionF,
+    status: "idle",
+  },
+  Notion: {
+    description: "Create entries in Notion.",
+    type: "Trigger",
+    myFunction: NotionEntryF,
+    status: "idle",
+  },
+  Discord: {
+    description: "Post messages to Discord",
+    type: "Trigger",
+    myFunction: DiscordMessageF,
+    status: "idle",
+  },
+  "Google Calendar": {
+    description: "Create a calendar invite.",
+    type: "Trigger",
+    myFunction: GoogleCalendarEventF,
+    status: "idle",
+  },
+  Condition: {
+    description: "Boolean operator that creates different conditions lanes.",
+    type: "Trigger",
+    myFunction: ConditionCheckF,
+    status: "idle",
+  },
+  "Custom Webhook": {
+    description: "Send data to an application via API.",
+    type: "Trigger",
+    myFunction: CustomWebhookEventF,
+    status: "idle",
+  },
+  Trigger: {
+    description: "An event that starts the workflow.",
+    type: "Trigger",
+    myFunction: TriggerEventF,
+    status: "idle",
+  },
+  Action: {
+    description: "An event after workflow begins",
+    type: "Trigger",
+    myFunction: ActionEventF,
+    status: "idle",
+  },
+  Wait: {
+    description: "Delay the next action.",
+    type: "Trigger",
+    myFunction: WaitEventF,
+    status: "idle",
+  },
 };
+
+export const nodeActions: NodeActions = {
+  "Telegram Connection": ["Get Recent Message", "Send Message"],
+  "Connect To Gmail": ["Get Latest Email", "Send Message To Draft"],
+  "Jira Connection": ["Get Many Issues", "Create an Issue", "Get an Issue", "Delete an Issue", "Update an Issue", "Get Issue Status", "Get an Issue Changelog", "Create Email Notification", "Add an Attachment", "Get an Attachment", "Get Many Attachments", "Remove an Attachment", "Add a Comment", "Get a Comment", "Get Many Comments", "Remove a Comment", "Update a Comment", "Create a User", "Delete a User", "Get a User", "Get all Users"],
+  "Connect To Outlook": ["Get a message outlook", "Get many messages outlook", "Create a draft outlook", "Get the draft outlook", "Delete draft outlook"],
+}
 
 export const CONNECTIONS: Connection[] = [
   {
