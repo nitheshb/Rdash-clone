@@ -11,7 +11,7 @@ export async function GET(req) {
     }
 
     const response = await fetch(
-      "https://graph.microsoft.com/v1.0/me/messages?$top=10&$orderby=receivedDateTime desc",
+      "https://graph.microsoft.com/v1.0/me/messages?$top=25&$orderby=receivedDateTime desc",
       {
         method: "GET",
         headers: {
@@ -36,11 +36,14 @@ export async function GET(req) {
       });
     }
 
+    console.log(emails, "The Complete Emails");
+
     const emailDetails = emails.map((email) => ({
-      subject: email.subject || "No subject",
-      from: email.from.emailAddress.address || "Unknown sender",
-      receivedAt: email.receivedDateTime || "Unknown time",
-      bodyPreview: email.bodyPreview || "No body preview available",
+      subject: email?.subject || "No subject",
+      from: email?.from?.emailAddress?.address || "Unknown sender",
+      receivedAt: email?.receivedDateTime || "Unknown time",
+      body: email?.bodyPreview || "No body preview available",
+      id: email?.id,
     }));
 
     return new Response(JSON.stringify(emailDetails), { status: 200 });

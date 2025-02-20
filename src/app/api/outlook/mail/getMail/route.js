@@ -31,6 +31,7 @@ export async function GET(req) {
 
     const data = await response.json();
     const latestUnreadEmail = data.value[0];
+    console.log(data, latestUnreadEmail, "ljlsd");
 
     if (!latestUnreadEmail) {
       return new Response(
@@ -39,11 +40,12 @@ export async function GET(req) {
       );
     }
 
-    const subject = latestUnreadEmail.subject || "No subject";
+    const subject = latestUnreadEmail?.subject || "No subject";
     const from =
-      latestUnreadEmail.from.emailAddress.address || "Unknown sender";
-    const receivedAt = latestUnreadEmail.receivedDateTime || "Unknown time";
-    const body = latestUnreadEmail.bodyPreview || "No body preview available";
+      latestUnreadEmail?.from?.emailAddress?.address || "Unknown sender";
+    const receivedAt = latestUnreadEmail?.receivedDateTime || "Unknown time";
+    const body = latestUnreadEmail?.bodyPreview || "No body preview available";
+    const id = latestUnreadEmail?.id || "";
 
     return new Response(
       JSON.stringify({
@@ -52,6 +54,7 @@ export async function GET(req) {
         from,
         receivedAt,
         body,
+        id,
       }),
       { status: 200 }
     );

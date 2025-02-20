@@ -152,9 +152,36 @@ const EditorCanvasIconHelper = ({ type }: Props) => {
     case "Connect To Outlook":
     case "Get a message outlook":
     case "Get many messages outlook":
+    case "Delete message outlook":
     case "Create a draft outlook":
     case "Get the draft outlook":
     case "Delete draft outlook":
+    case "Update draft outlook":
+    case "Send mail outlook":
+    case "Create Folder Outlook":
+    case "Get a Folder Outlook":
+    case "Get Many Folders Outlook":
+    case "Update Folder Outlook":
+    case "Delete Folder Outlook":
+    case "Create Contact Outlook":
+    case "Get Contact Outlook":
+    case "Get All Contacts Outlook":
+    case "Delete Contact Outlook":
+    case "Update Contact Outlook":
+    case "Create Calendar Outlook":
+    case "Get Calendar Outlook":
+    case "Get All Calendars Outlook":
+    case "Delete Calendar Outlook":
+    case "Update Calendar Outlook":
+    case "Create Event Outlook":
+    case "Get Event Outlook":
+    case "Get All Events Outlook":
+    case "Delete Event Outlook":
+    case "Update Event Outlook":
+    case "Add Attachment Outlook":
+    case "Get Attachment Outlook":
+    case "Get All Attachments Outlook":
+    case "Download Attachment Outlook":
       return (
         <Image
           src="/outlook.svg"
