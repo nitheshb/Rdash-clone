@@ -3,6 +3,7 @@ import React from 'react'
 import ProfilePicture from './_components/profile-picture'
 import { db } from '@/lib/db'
 import { currentUser } from '@clerk/nextjs'
+import Link from 'next/link'
 
 type Props = {}
 
@@ -74,6 +75,20 @@ const Settings = async (props: Props) => {
           user={user}
           onUpdate={updateUserInfo}
         />
+
+        {/* New Section: Billing and Templates Links */}
+        <div className="mt-10">
+          <h2 className="text-2xl font-bold">Manage Your Account</h2>
+          <p className="text-base text-white/50">Access your billing and templates settings</p>
+          <div className="flex flex-col mt-4">
+            <Link href="/billing" className="text-lg text-blue-500 hover:text-blue-700">
+              Billing
+            </Link>
+            <Link href="/templates" className="text-lg text-blue-500 hover:text-blue-700 mt-2">
+              Templates
+            </Link>
+          </div>
+        </div>
       </div>
     </div>
   )

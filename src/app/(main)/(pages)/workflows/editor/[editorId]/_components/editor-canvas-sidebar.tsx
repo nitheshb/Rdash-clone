@@ -3,7 +3,7 @@ import { EditorCanvasTypes, EditorNodeType } from '@/lib/types'
 import { useNodeConnections } from '@/providers/connections-provider'
 import { useEditor } from '@/providers/editor-provider'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-
+ 
 import React, { useEffect, useState } from 'react'
 import { Separator } from '@/components/ui/separator'
 import { CONNECTIONS, EditorCanvasDefaultCardTypes, nodeActions } from '@/lib/constant'
@@ -22,28 +22,28 @@ import {
 import RenderConnectionAccordion from './render-connection-accordion'
 import RenderOutputAccordion from './render-output-accordian'
 import { useFuzzieStore } from '@/store'
-import { ArrowLeft, Search, X } from 'lucide-react'
-
+import { ArrowLeft, ArrowRight, Search, X } from 'lucide-react'
+ 
 type Props = {
   nodes: EditorNodeType[]
   onClose: () => void
 }
-
+ 
 const EditorCanvasSidebar = ({ nodes, onClose }: Props) => {
   const { state } = useEditor()
   const { nodeConnection } = useNodeConnections()
   const { googleFile, setSlackChannels } = useFuzzieStore()
-
+ 
   const [selectedTrigger, setSelectedTrigger] = useState<string | null>(null)
   const [searchTriggers, setSearchTriggers] = useState<string>('')
   const [searchActions, setSearchActions] = useState<string>('')
-
+ 
   useEffect(() => {
     if (state) {
       onConnections(nodeConnection, state, googleFile)
     }
   }, [state])
-
+ 
   useEffect(() => {
     if (nodeConnection.slackNode.slackAccessToken) {
       fetchBotSlackChannels(
@@ -52,24 +52,24 @@ const EditorCanvasSidebar = ({ nodes, onClose }: Props) => {
       )
     }
   }, [nodeConnection])
-
+ 
   const handleTriggerDrop = (triggerType: string) => {
     setSelectedTrigger(triggerType)
   }
-
+ 
   const handleBack = () => {
     setSelectedTrigger(null)
   }
-
+ 
   const filteredCardTypes = Object.entries(EditorCanvasDefaultCardTypes)
     .filter(([cardKey]) => cardKey.toLowerCase().includes(searchTriggers.toLowerCase()) && EditorCanvasDefaultCardTypes[cardKey as keyof typeof EditorCanvasDefaultCardTypes].type === 'Trigger')
-
+ 
   const filteredActions = selectedTrigger && nodeActions[selectedTrigger]
     ? nodeActions[selectedTrigger].filter(action => action.toLowerCase().includes(searchActions.toLowerCase()))
     : []
-
+ 
   const shouldShowActionsTab = !selectedTrigger || (selectedTrigger && filteredActions.length < 1)
-
+ 
   return (
     <aside>
       {shouldShowActionsTab ? (
@@ -102,19 +102,26 @@ const EditorCanvasSidebar = ({ nodes, onClose }: Props) => {
               />
               <Search className="absolute left-3 top-5 transform -translate-y-1/2 text-gray-400" size={20} />
             </div>
-            {filteredCardTypes.map(([cardKey]) => (
-              <div
-                key={cardKey}
-                draggable
-                className="w-full cursor-pointer"
-                onClick={() => handleTriggerDrop(cardKey)}
-              >
-                <div className="flex flex-row items-center gap-3 p-1">
-                  <EditorCanvasIconHelper type={cardKey as EditorCanvasTypes} />
-                  <p className="text-md">{cardKey}</p>
+            {filteredCardTypes.map(([cardKey]) => {
+              const hasActions = nodeActions[cardKey]?.length > 0;
+              return (
+                <div
+                  key={cardKey}
+                  className="w-full cursor-pointer"
+                  draggable={!hasActions}
+                  onClick={hasActions ? () => handleTriggerDrop(cardKey) : undefined}
+                  onDragStart={!hasActions ? (event) => onDragStart(event, cardKey as EditorCanvasTypes) : undefined}
+                >
+                  <div className="flex flex-row items-center justify-between">
+                    <div className='flex flex-row items-center gap-3 p-1'>
+                    <EditorCanvasIconHelper type={cardKey as EditorCanvasTypes} />
+                    <p className="text-md">{cardKey}</p>
+                    </div>
+                    {hasActions && <ArrowRight size={20} className="ml-2 text-gray-400" />}
+                  </div>
                 </div>
-              </div>
-            ))}
+              )
+            })}
           </TabsContent>
           <TabsContent
             value="settings"
@@ -123,7 +130,7 @@ const EditorCanvasSidebar = ({ nodes, onClose }: Props) => {
             <div className="px-2 py-4 text-center text-xl font-bold">
               {state.editor.selectedNode.data.title}
             </div>
-
+ 
             <Accordion type="multiple">
               <AccordionItem
                 value="Options"
@@ -203,5 +210,5 @@ const EditorCanvasSidebar = ({ nodes, onClose }: Props) => {
     </aside>
   )
 }
-
+ 
 export default EditorCanvasSidebar

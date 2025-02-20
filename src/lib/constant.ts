@@ -147,8 +147,8 @@ export const menuOptions = [
   { name: "Workflows", Component: Workflows, href: "/workflows" },
   { name: "Settings", Component: Settings, href: "/settings" },
   { name: "Connections", Component: Category, href: "/connections" },
-  { name: "Billing", Component: Payment, href: "/billing" },
-  { name: "Templates", Component: Templates, href: "/templates" },
+  // { name: "Billing", Component: Payment, href: "/billing" },
+  // { name: "Templates", Component: Templates, href: "/templates" },
   { name: "Logs", Component: Logs, href: "/logs" },
 ];
 
