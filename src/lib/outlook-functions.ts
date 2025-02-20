@@ -52,17 +52,14 @@ const OdeleteMessageOutlookF = async function (data: any) {
   }
 };
 
-const OcreateDraftOutlookF = async (
-  generatedDraft: string,
-  from: string,
-  subject: string
-) => {
+const OcreateDraftOutlookF = async (data: any) => {
+  const { from, message, subject } = data;
   try {
     const response = await axios.post("/api/outlook/draft/createDraft", {
       recipient: from || "ensaraisites@gmail.com",
       subject: subject || "Draft Subject Example One",
       body:
-        generatedDraft ||
+        message ||
         "Draft example text just to test the flow of the workflow One",
     });
 
