@@ -5,7 +5,7 @@ import Home from "@/components/icons/home";
 import Payment from "@/components/icons/payment";
 import Settings from "@/components/icons/settings";
 import Workflows from "@/components/icons/workflows";
-import { Connection, NodeActions } from "./types";
+import { Connection, NodeActions, NodeTriggers } from "./types";
 import {
   ActionEventF,
   ConditionCheckF,
@@ -46,7 +46,6 @@ import {
   JupdateCommentF,
   JupdateIssueF,
 } from "./jira-functions";
-import { TgetRecentMessageF, TsendMessageF } from "./telegram-functions";
 import { CopenaiResponseF } from "./openai-functions";
 import { GdraftGmailF, GfetchGmailF } from "./gmail-functions";
 import {
@@ -83,6 +82,7 @@ import {
   OsendMailOutlookF,
   OupdateDraftOutlookF,
 } from "./outlook-functions";
+import { TgetChatF, TgetAllAdministratorsInChatF, TgetMemberInChatF, TleaveChatF, TsetDescriptionOnChatF, TsetTitleOnChatF, TanswerQueryACallbackF, TanswerInlineQueryACallbackF, TgetFileF, TdeleteChatMessageF, TeditTestMessageF, TpinChatMessageF, TsendMediaGroupMessageF, TsendTextMessageF, TsendPhotoMessageF, TsendAnimatedFileF, TsendAudioFileF, TsendStickerF, TsendVideoF, TsendChatActionF, TunpinChatMessageF, TonMessageF } from "./telegram-functions";
 
 export const clients = [...new Array(10)].map((client, index) => ({
   href: `/${index + 1}.png`,
@@ -182,155 +182,275 @@ export const menuOptions = [
 export const EditorCanvasDefaultCardTypes = {
   "Telegram Connection": {
     description: "Connect with Telegram for actions",
-    type: "Trigger",
+    type: "Node",
     myFunction: TconnectTelegramF,
     status: "idle",
   },
-  "Get Recent Message": {
-    description: "Retrieve recent messages from Telegram",
+  "Get a chat": {
+    description: "Get a chat from Telegram",
     type: "Action",
-    myFunction: TgetRecentMessageF,
+    myFunction: TgetChatF,
     status: "idle",
   },
-  "Send Message": {
-    description: "Send a message to Telegram",
+  "Get all administrators in a chat": {
+    description: "Get all administrators in a chat",
     type: "Action",
-    myFunction: TsendMessageF,
+    myFunction: TgetAllAdministratorsInChatF,
+    status: "idle",
+  },
+  "Get a member in a chat": {
+    description: "Get a member in a chat",
+    type: "Action",
+    myFunction: TgetMemberInChatF,
+    status: "idle",
+  },
+  "Leave a chat": {
+    description: "Leave a chat",
+    type: "Action",
+    myFunction: TleaveChatF,
+    status: "idle",
+  },
+  "Set description on a chat": {
+    description: "Set description on a chat",
+    type: "Action",
+    myFunction: TsetDescriptionOnChatF,
+    status: "idle",
+  },
+  "Set a title on a chat": {
+    description: "Set a title on a chat",
+    type: "Action",
+    myFunction: TsetTitleOnChatF,
+    status: "idle",
+  },
+  "Answer query a callback": {
+    description: "Answer query callback",
+    type: "Action",
+    myFunction: TanswerQueryACallbackF,
+    status: "idle",
+  },
+  "Answer an inline query callback": {
+    description: "Answer inline query callback",
+    type: "Action",
+    myFunction: TanswerInlineQueryACallbackF,
+    status: "idle",
+  },
+  "Get a file": {
+    description: "Get a file from Telegram",
+    type: "Action",
+    myFunction: TgetFileF,
+    status: "idle",
+  },
+  "Delete a chat message": {
+    description: "Delete a chat message",
+    type: "Action",
+    myFunction: TdeleteChatMessageF,
+    status: "idle",
+  },
+  "Edit a test message": {
+    description: "Edit a test message",
+    type: "Action",
+    myFunction: TeditTestMessageF,
+    status: "idle",
+  },
+  "Pin a chat message": {
+    description: "Pin a chat message",
+    type: "Action",
+    myFunction: TpinChatMessageF,
+    status: "idle",
+  },
+  "Send a media group message": {
+    description: "Send a media group message to Telegram",
+    type: "Action",
+    myFunction: TsendMediaGroupMessageF,
+    status: "idle",
+  },
+  "Send a text message": {
+    description: "Send a text message to Telegram",
+    type: "Action",
+    myFunction: TsendTextMessageF,
+    status: "idle",
+  },
+  "Send a photo message": {
+    description: "Send a photo message to Telegram",
+    type: "Action",
+    myFunction: TsendPhotoMessageF,
+    status: "idle",
+  },
+  "Send an animated file": {
+    description: "Send an animated file to Telegram",
+    type: "Action",
+    myFunction: TsendAnimatedFileF,
+    status: "idle",
+  },
+  "Send an audio file": {
+    description: "Send an audio file to Telegram",
+    type: "Action",
+    myFunction: TsendAudioFileF,
+    status: "idle",
+  },
+  "Send a sticker": {
+    description: "Send a sticker to Telegram",
+    type: "Action",
+    myFunction: TsendStickerF,
+    status: "idle",
+  },
+  "Send a video": {
+    description: "Send a video to Telegram",
+    type: "Action",
+    myFunction: TsendVideoF,
+    status: "idle",
+  },
+  "Send a chat action": {
+    description: "Send a chat action to Telegram",
+    type: "Action",
+    myFunction: TsendChatActionF,
+    status: "idle",
+  },
+  "Unpin a chat message": {
+    description: "Unpin a chat message",
+    type: "Action",
+    myFunction: TunpinChatMessageF,
+    status: "idle",
+  },
+  "On message": {
+    description: "Retrieve recent messages from Telegram",
+    type: "Trigger",
+    myFunction: TonMessageF,
     status: "idle",
   },
   "Open AI": {
     description: "Use Open AI to summarize, respond, create and much more.",
-    type: "Trigger",
+    type: "Node",
     myFunction: CopenaiResponseF,
     status: "idle",
   },
   "Jira Connection": {
     description: "Connect with Jira for actions",
-    type: "Trigger",
+    type: "Node",
     myFunction: JiraConnectionF,
     status: "idle",
   },
-  "Get Many Issues": {
+  "Get many issues": {
     description: "Get issues from Jira",
     type: "Action",
     myFunction: JgetManyIssuesF,
     status: "idle",
   },
-  "Get an Issue": {
+  "Get an issue": {
     description: "Get single issue from Jira",
     type: "Action",
     myFunction: JgetIssueF,
     status: "idle",
   },
-  "Create an Issue": {
+  "Create an issue": {
     description: "Create an issue in Jira",
     type: "Action",
     myFunction: JcreateIssueF,
     status: "idle",
   },
-  "Delete an Issue": {
+  "Delete an issue": {
     description: "Delete an issue in Jira",
     type: "Action",
     myFunction: JdeleteIssueF,
     status: "idle",
   },
-  "Update an Issue": {
+  "Update an issue": {
     description: "Update an issue in Jira",
     type: "Action",
     myFunction: JupdateIssueF,
     status: "idle",
   },
-  "Get Issue Status": {
+  "Get the status of an issue": {
     description: "Get the status of an jira issue",
     type: "Action",
     myFunction: JgetIssueStatusF,
     status: "idle",
   },
-  "Get an Issue Changelog": {
+  "Get an issue changelog": {
     description: "Get an issue changelog from jira",
     type: "Action",
     myFunction: JgetIssueChangelogF,
     status: "idle",
   },
-  "Create Email Notification": {
+  "Create an email notifications for an issue": {
     description: "Create an email notification for an jira issue",
     type: "Action",
     myFunction: JcreateEmailNotificationF,
     status: "idle",
   },
-  "Add an Attachment": {
+  "Add an attachment to an issue": {
     description: "Add an attachment to an issue",
     type: "Action",
     myFunction: JaddAttachmentF,
     status: "idle",
   },
-  "Get an Attachment": {
+  "Get an attachment from an issue": {
     description: "Get an attachment from an issue",
     type: "Action",
     myFunction: JgetAttachmentF,
     status: "idle",
   },
-  "Get Many Attachments": {
+  "Get many issue attachments": {
     description: "Get many issue attachments from jira",
     type: "Action",
     myFunction: JgetManyAttachmentsF,
     status: "idle",
   },
-  "Remove an Attachment": {
+  "Remove an attachment from an issue": {
     description: "Remove an attachment from jira",
     type: "Action",
     myFunction: JremoveAttachmentF,
     status: "idle",
   },
-  "Add a Comment": {
+  "Add a comment": {
     description: "Add a comment in jira",
     type: "Action",
-    myFunction: JgetCommentF,
+    myFunction: JaddCommentF,
     status: "idle",
   },
-  "Get a Comment": {
+  "Get a comment": {
     description: "Get a comment from jira",
     type: "Action",
     myFunction: JgetCommentF,
     status: "idle",
   },
-  "Get Many Comments": {
+  "Get many comments": {
     description: "Get many comments from jira",
     type: "Action",
     myFunction: JgetManyCommentsF,
     status: "idle",
   },
-  "Remove a Comment": {
+  "Remove a comment": {
     description: "Remove a comment from jira",
     type: "Action",
     myFunction: JremoveCommentF,
     status: "idle",
   },
-  "Update a Comment": {
+  "Update a comment": {
     description: "Update a comment in jira",
     type: "Action",
     myFunction: JupdateCommentF,
     status: "idle",
   },
-  "Create a User": {
+  "Create a user": {
     description: "Create a user in jira",
     type: "Action",
     myFunction: JcreateUserF,
     status: "idle",
   },
-  "Delete a User": {
+  "Delete a user": {
     description: "Delete a user in jira",
     type: "Action",
     myFunction: JdeleteUserF,
     status: "idle",
   },
-  "Get a User": {
+  "Get a user": {
     description: "Get a user in jira",
     type: "Action",
     myFunction: JgetUserF,
     status: "idle",
   },
-  "Get all Users": {
+  "Get all users": {
     description: "Get all users in jira",
     type: "Action",
     myFunction: JgetAllUsersF,
@@ -338,7 +458,7 @@ export const EditorCanvasDefaultCardTypes = {
   },
   ["Connect To Gmail"]: {
     description: "Use this to connect to your Gmail",
-    type: "Trigger",
+    type: "Node",
     myFunction: GconnectGmailF,
     status: "idle",
   },
@@ -357,7 +477,7 @@ export const EditorCanvasDefaultCardTypes = {
   },
   ["Connect To Outlook"]: {
     description: "Connect to Outlook",
-    type: "Trigger",
+    type: "Node",
     myFunction: GconnectOutlookF,
     status: "idle",
   },
@@ -555,133 +675,134 @@ export const EditorCanvasDefaultCardTypes = {
   },
   Email: {
     description: "Send an email to a user",
-    type: "Action",
+    type: "Node",
     myFunction: GemailConnectionF,
     status: "idle",
   },
   Slack: {
     description: "Send a notification to Slack",
-    type: "Trigger",
+    type: "Node",
     myFunction: SlackNotificationF,
     status: "idle",
   },
   "Google Drive": {
     description: "Connect with Google Drive for actions",
-    type: "Trigger",
+    type: "Node",
     myFunction: GoogleDriveActionF,
     status: "idle",
   },
   Notion: {
     description: "Create entries in Notion.",
-    type: "Trigger",
+    type: "Node",
     myFunction: NotionEntryF,
     status: "idle",
   },
   Discord: {
     description: "Post messages to Discord",
-    type: "Trigger",
+    type: "Node",
     myFunction: DiscordMessageF,
     status: "idle",
   },
   "Google Calendar": {
     description: "Create a calendar invite.",
-    type: "Trigger",
+    type: "Node",
     myFunction: GoogleCalendarEventF,
     status: "idle",
   },
   Condition: {
     description: "Boolean operator that creates different conditions lanes.",
-    type: "Trigger",
+    type: "Node",
     myFunction: ConditionCheckF,
     status: "idle",
   },
   "Custom Webhook": {
     description: "Send data to an application via API.",
-    type: "Trigger",
+    type: "Node",
     myFunction: CustomWebhookEventF,
     status: "idle",
   },
   Trigger: {
     description: "An event that starts the workflow.",
-    type: "Trigger",
+    type: "Node",
     myFunction: TriggerEventF,
     status: "idle",
   },
   Action: {
     description: "An event after workflow begins",
-    type: "Trigger",
+    type: "Node",
     myFunction: ActionEventF,
     status: "idle",
   },
   Wait: {
     description: "Delay the next action.",
-    type: "Trigger",
+    type: "Node",
     myFunction: WaitEventF,
     status: "idle",
   },
 };
 
 export const nodeActions: NodeActions = {
-  "Telegram Connection": ["Get Recent Message", "Send Message"],
-  "Connect To Gmail": ["Get Latest Email", "Send Message To Draft"],
-  "Jira Connection": [
-    "Get Many Issues",
-    "Create an Issue",
-    "Get an Issue",
-    "Delete an Issue",
-    "Update an Issue",
-    "Get Issue Status",
-    "Get an Issue Changelog",
-    "Create Email Notification",
-    "Add an Attachment",
-    "Get an Attachment",
-    "Get Many Attachments",
-    "Remove an Attachment",
-    "Add a Comment",
-    "Get a Comment",
-    "Get Many Comments",
-    "Remove a Comment",
-    "Update a Comment",
-    "Create a User",
-    "Delete a User",
-    "Get a User",
-    "Get all Users",
-  ],
-  "Connect To Outlook": [
-    "Get a message outlook",
-    "Get many messages outlook",
-    "Delete message outlook",
-    "Create a draft outlook",
-    "Get the draft outlook",
-    "Delete draft outlook",
-    "Update draft outlook",
-    "Send mail outlook",
-    "Create Folder Outlook",
-    "Get a Folder Outlook",
-    "Get Many Folders Outlook",
-    "Update Folder Outlook",
-    "Delete Folder Outlook",
-    "Create Contact Outlook",
-    "Get Contact Outlook",
-    "Get All Contacts Outlook",
-    "Delete Contact Outlook",
-    "Update Contact Outlook",
-    "Create Calendar Outlook",
-    "Get Calendar Outlook",
-    "Get All Calendars Outlook",
-    "Delete Calendar Outlook",
-    "Update Calendar Outlook",
-    "Create Event Outlook",
-    "Get Event Outlook",
-    "Get All Events Outlook",
-    "Delete Event Outlook",
-    "Update Event Outlook",
-    "Add Attachment Outlook",
-    "Get Attachment Outlook",
-    "Get All Attachments Outlook",
-    "Download Attachment Outlook",
-  ],
+  "Telegram Connection": {
+    "Chat Actions": [
+      "Get a chat",
+      "Get all administrators in a chat",
+      "Get a member in a chat",
+      "Leave a chat",
+      "Set description on a chat",
+      "Set a title on a chat",
+    ],
+    "Callback Actions": [
+      "Answer query a callback",
+      "Answer an inline query callback",
+    ],
+    "File Actions": ["Get a file"],
+    "Message Actions": [
+      "Delete a chat message",
+      "Edit a test message",
+      "Pin a chat message",
+      "Send an animated file",
+      "Send an audio file",
+      "Send a chat action",
+      "Send a media group message",
+      "Send a text message",
+      "Send a photo message",
+      "Send a sticker",
+      "Send a video",
+      "Unpin a chat message",
+    ],
+  },
+  "Connect To Gmail": {
+    "Message Actions": ["Get Latest Email"],
+    "Draft Actions": ["Send Message To Draft"],
+  },
+  "Jira Connection": {
+    "Issue Actions": ["Get an issue changelog", "Create an issue", "Delete an issue", "Get an issue",
+      "Get many issues", "Create an email notifications for an issue", "Get the status of an issue",
+      "Update an issue"
+    ],
+    "Issue Attachment Actions": ["Add an attachment to an issue", "Get an attachment from an issue",
+      "Get many issue attachments", "Remove an attachment from an issue"
+    ],
+    "Issue Comment Actions": ["Add a comment", "Get a comment", "Get many comments", "Remove a comment", "Update a comment"
+    ],
+    "User Actions": ["Create a user", "Delete a user", "Get a user", "Get all users"],
+  },
+  "Connect To Outlook": { 
+    "Message Actions": ["Get a message outlook", "Get many messages outlook", "Delete message outlook"], 
+    "Draft Actions": ["Create a draft outlook", "Get the draft outlook", "Delete draft outlook", "Update draft outlook", "Send mail outlook"], 
+    "Calendar Actions": ["Create Calendar Outlook", "Delete Calendar Outlook", "Get Calendar Outlook", "Get All Calendars Outlook", "Update Calendar Outlook"], 
+    "Contact Actions": ["Create Contact Outlook", "Delete Contact Outlook", "Get Contact Outlook", "Get All Contacts Outlook", "Update Contact Outlook"], 
+    "Event Actions": ["Create Event Outlook", "Delete Event Outlook", "Get All Events Outlook", "Update Event Outlook"], 
+    "Folder Actions": ["Create Folder Outlook", "Delete Folder Outlook", "Get a Folder Outlook", "Get Many Folders Outlook", "Update Folder Outlook"], 
+    // "Folder Message Actions": ["Get many folder messages"], 
+    "Message Attachment Actions": ["Add Attachment Outlook", "Download Attachment Outlook", "Get Attachment Outlook", "Get All Attachments Outlook"] 
+  },
 };
+
+export const nodeTriggers: NodeTriggers = {
+  "Telegram Connection": ["On message"],
+};
+
 
 export const CONNECTIONS: Connection[] = [
   {

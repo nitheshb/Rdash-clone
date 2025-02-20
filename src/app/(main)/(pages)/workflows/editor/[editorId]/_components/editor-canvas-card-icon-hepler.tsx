@@ -95,8 +95,28 @@ const EditorCanvasIconHelper = ({ type }: Props) => {
     case "Wait":
       return <Timer className="flex-shrink-0" size={30} />;
     case "Telegram Connection":
-    case "Get Recent Message":
-    case "Send Message":
+    case "Get a chat":
+    case "Get all administrators in a chat":
+    case "Get a member in a chat":
+    case "Leave a chat":
+    case "Set description on a chat":
+    case "Set a title on a chat":
+    case "Answer query a callback":
+    case "Answer an inline query callback":
+    case "Get a file":
+    case "Delete a chat message":
+    case "Edit a test message":
+    case "Pin a chat message":
+    case "Send a text message":
+    case "Send a media group message":
+    case "Send a photo message":
+    case "Send an animated file":
+    case "Send an audio file":
+    case "Send a chat action":
+    case "Send a sticker":
+    case "Send a video":
+    case "Unpin a chat message":
+    case "On message":
       return (
         <Image
           src="/telegram.svg"
@@ -107,27 +127,27 @@ const EditorCanvasIconHelper = ({ type }: Props) => {
         />
       );
     case "Jira Connection":
-    case "Get Many Issues":
-    case "Get an Issue":
-    case "Create an Issue":
-    case "Delete an Issue":
-    case "Update an Issue":
-    case "Get Issue Status":
-    case "Get an Issue Changelog":
-    case "Create Email Notification":
-    case "Add an Attachment":
-    case "Get an Attachment":
-    case "Get Many Attachments":
-    case "Remove an Attachment":
-    case "Add a Comment":
-    case "Get a Comment":
-    case "Get Many Comments":
-    case "Remove a Comment":
-    case "Update a Comment":
-    case "Create a User":
-    case "Delete a User":
-    case "Get a User":
-    case "Get all Users":
+    case "Get many issues":
+    case "Get an issue":
+    case "Create an issue":
+    case "Delete an issue":
+    case "Update an issue":
+    case "Get the status of an issue":
+    case "Get an issue changelog":
+    case "Create an email notifications for an issue":
+    case "Add an attachment to an issue":
+    case "Get an attachment from an issue":
+    case "Get many issue attachments":
+    case "Remove an attachment from an issue":
+    case "Add a comment":
+    case "Get a comment":
+    case "Get many comments":
+    case "Remove a comment":
+    case "Update a comment":
+    case "Create a user":
+    case "Delete a user":
+    case "Get a user":
+    case "Get all users":
       return (
         <Image
           src="/jira.svg"
