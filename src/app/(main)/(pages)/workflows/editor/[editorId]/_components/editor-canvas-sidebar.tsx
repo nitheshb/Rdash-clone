@@ -6,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 import React, { useEffect, useState } from 'react'
 import { Separator } from '@/components/ui/separator'
-import { CONNECTIONS, EditorCanvasDefaultCardTypes, nodeActions, nodeTriggers } from '@/lib/constant'
+import { actionHeadings, CONNECTIONS, EditorCanvasDefaultCardTypes, nodeActions, nodeTriggers } from '@/lib/constant'
 import {
   fetchBotSlackChannels,
   onConnections,
@@ -62,7 +62,9 @@ const EditorCanvasSidebar = ({ nodes, onClose }: Props) => {
   }
 
   const filteredCardTypes = Object.entries(EditorCanvasDefaultCardTypes)
-    .filter(([cardKey]) => cardKey.toLowerCase().includes(searchNodes.toLowerCase()) && EditorCanvasDefaultCardTypes[cardKey as keyof typeof EditorCanvasDefaultCardTypes].type === 'Node')
+    .filter(([cardKey]) => cardKey.toLowerCase().includes(searchNodes.toLowerCase()) &&
+      EditorCanvasDefaultCardTypes[cardKey as keyof typeof EditorCanvasDefaultCardTypes].type === 'Node'
+    )
 
   const filteredActions = selectedNode && nodeActions[selectedNode]
     ? Object.entries(nodeActions[selectedNode]).flatMap(([heading, actions]) => ({
@@ -78,6 +80,10 @@ const EditorCanvasSidebar = ({ nodes, onClose }: Props) => {
     : []
 
   const shouldShowActionsTab = !selectedNode || (selectedNode && filteredActions.length < 1)
+
+   const cardType = Object.keys(EditorCanvasDefaultCardTypes).find(
+        (key) => EditorCanvasDefaultCardTypes[key as keyof typeof EditorCanvasDefaultCardTypes].value === selectedNode
+      );
 
   return (
     <aside>
@@ -111,19 +117,19 @@ const EditorCanvasSidebar = ({ nodes, onClose }: Props) => {
               />
               <Search className="absolute left-3 top-5 transform -translate-y-1/2 text-gray-400" size={20} />
             </div>
-            {filteredCardTypes.map(([cardKey]) => {
-              const hasActions = nodeActions[cardKey] && Object.values(nodeActions[cardKey]).flat().length > 0;
+            {filteredCardTypes.map(([cardKey, cardData]) => {
+              const hasActions = nodeActions[cardData.value] && Object.values(nodeActions[cardData.value]).flat().length > 0;
               return (
                 <div
-                  key={cardKey}
+                  key={cardData.value}
                   className="w-full cursor-pointer"
                   draggable={!hasActions}
-                  onClick={hasActions ? () => handleNodeDrop(cardKey) : undefined}
-                  onDragStart={!hasActions ? (event) => onDragStart(event, cardKey as EditorCanvasTypes) : undefined}
+                  onClick={hasActions ? () => handleNodeDrop(cardData.value) : undefined}
+                  onDragStart={!hasActions ? (event) => onDragStart(event, cardData.value as EditorCanvasTypes) : undefined}
                 >
                   <div className="flex flex-row items-center justify-between">
                     <div className='flex flex-row items-center gap-3 p-1'>
-                      <EditorCanvasIconHelper type={cardKey as EditorCanvasTypes} />
+                      <EditorCanvasIconHelper type={cardData.value as EditorCanvasTypes} />
                       <p className="text-md">{cardKey}</p>
                     </div>
                     {hasActions && <ArrowRight size={20} className="text-gray-400" />}
@@ -182,7 +188,7 @@ const EditorCanvasSidebar = ({ nodes, onClose }: Props) => {
               </button>
               <div className="flex items-center gap-3 p-1">
                 <EditorCanvasIconHelper type={selectedNode as EditorCanvasTypes} />
-                <p className="text-lg font-semibold dark:text-white">{selectedNode}</p>
+                <p className="text-lg font-semibold dark:text-white">{cardType}</p>
               </div>
             </div>
           </TabsList>
@@ -193,7 +199,7 @@ const EditorCanvasSidebar = ({ nodes, onClose }: Props) => {
             <div className="relative">
               <input
                 type="text"
-                placeholder={`Search ${selectedNode} Actions...`}
+                placeholder={`Search ${cardType} Actions...`}
                 value={searchActions}
                 onChange={(e) => setSearchActions(e.target.value)}
                 className="p-2 pl-10 border border-gray-300 rounded w-full"
@@ -201,7 +207,7 @@ const EditorCanvasSidebar = ({ nodes, onClose }: Props) => {
               <Search className="absolute left-3 top-5 transform -translate-y-1/2 text-gray-400" size={20} />
             </div>
 
-            <Accordion type="multiple">
+            <Accordion type="multiple" defaultValue={["Options", "Expected Output"]}>
               <AccordionItem
                 value="Options"
                 className="px-2"
@@ -212,20 +218,25 @@ const EditorCanvasSidebar = ({ nodes, onClose }: Props) => {
                 <AccordionContent>
                   {filteredActions.map(({ heading, actions }) => (
                     <div key={heading} className="w-full">
-                      <div className="font-semibold text-md text-gray-700 dark:text-gray-500">{heading}</div>
-                      {actions.map((action) => (
-                        <div
-                          key={action}
-                          draggable
-                          className="w-full cursor-grab"
-                          onDragStart={(event) => onDragStart(event, action as EditorCanvasTypes)}
-                        >
-                          <div className="flex flex-row items-center gap-3 p-2">
-                            <EditorCanvasIconHelper type={action as EditorCanvasTypes} />
-                            <p className="text-md">{action}</p>
+                      <div className="font-semibold text-md text-gray-700 dark:text-gray-500">{actionHeadings.find(item => item.value === heading)?.label}</div>
+                      {actions.map((action) => {
+                        const cardKey = Object.keys(EditorCanvasDefaultCardTypes).find(
+                          (key) => EditorCanvasDefaultCardTypes[key as keyof typeof EditorCanvasDefaultCardTypes].value === action
+                        );
+                        return (
+                          <div
+                            key={action}
+                            draggable
+                            className="w-full cursor-grab"
+                            onDragStart={(event) => onDragStart(event, action as EditorCanvasTypes)}
+                          >
+                            <div className="flex flex-row items-center gap-3 p-2">
+                              <EditorCanvasIconHelper type={action as EditorCanvasTypes} />
+                              <p className="text-md">{cardKey}</p>
+                            </div>
                           </div>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   ))}
                 </AccordionContent>
@@ -239,7 +250,11 @@ const EditorCanvasSidebar = ({ nodes, onClose }: Props) => {
                     Triggers ({filteredTriggers.length})
                   </AccordionTrigger>
                   <AccordionContent>
-                    {filteredTriggers.map(trigger => (
+                    {filteredTriggers.map(trigger => {
+                        const cardKey = Object.keys(EditorCanvasDefaultCardTypes).find(
+                          (key) => EditorCanvasDefaultCardTypes[key as keyof typeof EditorCanvasDefaultCardTypes].value === trigger
+                        );
+                        return (
                       <div key={trigger}
                         draggable
                         className="w-full cursor-grab"
@@ -247,10 +262,11 @@ const EditorCanvasSidebar = ({ nodes, onClose }: Props) => {
                       >
                         <div className="flex flex-row items-center gap-3 p-2">
                           <EditorCanvasIconHelper type={trigger as EditorCanvasTypes} />
-                          <p className="text-md">{trigger}</p>
+                          <p className="text-md">{cardKey}</p>
                         </div>
                       </div>
-                    ))}
+                   );
+                  })}
                   </AccordionContent>
                 </AccordionItem>
               )}
