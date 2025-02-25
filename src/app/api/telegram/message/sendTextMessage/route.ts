@@ -1,21 +1,21 @@
 import axios from 'axios';
+import { NextRequest, NextResponse } from 'next/server';
 
 const TELEGRAM_API_URL = process.env.TELEGRAM_API_URL || '';
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '';
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const { message } = body;
 
     if (!message) {
-      return new Response(
-        JSON.stringify({ error: 'Message is required' }),
-        { status: 400, headers: { 'Content-Type': 'application/json' } }
+      return NextResponse.json(
+        { error: 'Message is required' },
+        { status: 400 }
       );
     }
 
-    // Get chatId from Telegram updates
     const getChatIdUrl = `${TELEGRAM_API_URL}${TELEGRAM_BOT_TOKEN}/getUpdates`;
 
     const getChatIdResponse = await axios.get(getChatIdUrl);
@@ -28,7 +28,6 @@ export async function POST(req: Request) {
         throw new Error('No chat_id found in the updates.');
       }
 
-      // Send message to Telegram chat
       const sendMessageUrl = `${TELEGRAM_API_URL}${TELEGRAM_BOT_TOKEN}/sendMessage`;
       const sendMessageBody = { chat_id: chatId, text: message };
 
@@ -39,9 +38,9 @@ export async function POST(req: Request) {
       const sendMessageData = sendMessageResponse.data;
 
       if (sendMessageData.ok) {
-        return new Response(
-          JSON.stringify({ success: true, result: sendMessageData.result }),
-          { status: 200, headers: { 'Content-Type': 'application/json' } }
+        return NextResponse.json(
+          { success: true, result: sendMessageData.result },
+          { status: 200 }
         );
       } else {
         throw new Error('Failed to send message.');
@@ -52,11 +51,11 @@ export async function POST(req: Request) {
 
   } catch (error: unknown) {
     console.error("Error occurred:", error);
-    return new Response(
-      JSON.stringify({
+    return NextResponse.json(
+      {
         error: error instanceof Error ? error.message : 'An unknown error occurred.',
-      }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
+      },
+      { status: 500 }
     );
   }
 }

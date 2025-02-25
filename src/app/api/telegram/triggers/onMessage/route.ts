@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { NextResponse } from 'next/server';
 
 const TELEGRAM_API_URL = process.env.TELEGRAM_API_URL || '';
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '';
@@ -19,23 +20,17 @@ export async function GET() {
       const message = latestUpdate.message;
       lastUpdateId = latestUpdate.update_id; 
 
-      return new Response(
-        JSON.stringify({ ok: true, message, lastUpdateId }),
-        {
-          status: 200,
-          headers: { 'Content-Type': 'application/json' },
-        }
-      );
+      return NextResponse.json({ ok: true, message, lastUpdateId },{ status: 200});
     } else {
       throw new Error('No updates found or failed to fetch updates.');
     }
   } catch (error: unknown) {
     console.error("Error occurred while fetching updates:", error);
-    return new Response(
-      JSON.stringify({
+    return NextResponse.json(
+      {
         error: error instanceof Error ? error.message : 'An unknown error occurred.',
-      }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
+      },
+      { status: 500 }
     );
   }
 }

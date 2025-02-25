@@ -66,6 +66,14 @@ export type EditorCanvasTypes =
   | "T_pin_chat_message"
   | "T_unpin_chat_message"
   | "T_on_message"
+  | "T_on_callback_query"
+  | "T_on_channel_post"
+  | "T_on_edited_channel_post"
+  | "T_on_edited_message"
+  | "T_on_inline_query"
+  | "T_on_poll_change"
+  | "T_on_pre_checkout_query"
+  | "T_on_shipping_query"
   | "J_jira_connection"
   | "J_get_many_issues"
   | "J_get_an_issue"
@@ -164,30 +172,30 @@ export type EditorNode = EditorNodeType;
 
 export type EditorActions =
   | {
-      type: "LOAD_DATA";
-      payload: {
-        elements: EditorNode[];
-        edges: {
-          id: string;
-          source: string;
-          target: string;
-        }[];
-      };
-    }
+    type: "LOAD_DATA";
+    payload: {
+      elements: EditorNode[];
+      edges: {
+        id: string;
+        source: string;
+        target: string;
+      }[];
+    };
+  }
   | {
-      type: "UPDATE_NODE";
-      payload: {
-        elements: EditorNode[];
-      };
-    }
+    type: "UPDATE_NODE";
+    payload: {
+      elements: EditorNode[];
+    };
+  }
   | { type: "REDO" }
   | { type: "UNDO" }
   | {
-      type: "SELECTED_ELEMENT";
-      payload: {
-        element: EditorNode;
-      };
+    type: "SELECTED_ELEMENT";
+    payload: {
+      element: EditorNode;
     };
+  };
 
 export const nodeMapper: Record<string, string> = {
   Notion: "notionNode",

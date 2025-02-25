@@ -4,30 +4,36 @@ import { NextRequest, NextResponse } from 'next/server';
 const TELEGRAM_API_URL = process.env.TELEGRAM_API_URL;
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 
-export async function GET(req: NextRequest, { params }: { params: { chat_id: string } }) {
+export async function POST(req: NextRequest, { params }: { params: { chat_id: string } }) {
   try {
     const { chat_id } = params;
-    if (!chat_id) {
+    const body = await req.json();
+    const { title } = body;
+
+    if (!title) {
       return NextResponse.json(
-        { error: 'chat_id is required' },
+        { error: 'title is required' },
         { status: 400 }
       );
     }
+    const setTitleUrl = `${TELEGRAM_API_URL}${TELEGRAM_BOT_TOKEN}/setChatTitle`;
+    const res = await axios.post(setTitleUrl, {
+      chat_id,
+      title,
+    });
 
-    const getChatUrl = `${TELEGRAM_API_URL}${TELEGRAM_BOT_TOKEN}/getChat?chat_id=${chat_id}`;
-    const res = await axios.get(getChatUrl);
     const data = res.data;
 
     if (data.ok) {
       return NextResponse.json(
-        { ok: true, chat: data.result },
+        { ok: true, result: data.result },
         { status: 200 }
       );
     } else {
-      throw new Error('Failed to fetch chat information.');
+      throw new Error('Failed to update chat title.');
     }
   } catch (error: unknown) {
-    console.error('Error occurred while fetching chat info:', error);
+    console.error('Error setting chat title:', error);
     return NextResponse.json(
       {
         error: error instanceof Error ? error.message : 'An unknown error occurred.',

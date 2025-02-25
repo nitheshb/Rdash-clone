@@ -84,29 +84,37 @@ const EditorCanvasIconHelper = ({ type }: Props) => {
       return <Zap className="flex-shrink-0" size={30} />;
     case "W_wait_event":
       return <Timer className="flex-shrink-0" size={30} />;
-      case "T_telegram_connection":
-        case "T_get_a_chat":
-        case "T_get_all_admins_in_chat":
-        case "T_get_member_in_chat":
-        case "T_leave_a_chat":
-        case "T_set_description_on_chat":
-        case "T_set_title_on_chat":
-        case "T_answer_query_a_callback":
-        case "T_answer_inline_query_a_callback":
-        case "T_get_file":
-        case "T_delete_chat_message":
-        case "T_edit_test_message":
-        case "T_pin_chat_message":
-        case "T_send_text_message":
-        case "T_send_media_group_message":
-        case "T_send_photo_message":
-        case "T_send_animated_file":
-        case "T_send_audio_file":
-        case "T_send_chat_action":
-        case "T_send_sticker":
-        case "T_send_video":
-        case "T_unpin_chat_message":
-        case "T_on_message":
+    case "T_telegram_connection":
+    case "T_get_a_chat":
+    case "T_get_all_admins_in_chat":
+    case "T_get_member_in_chat":
+    case "T_leave_a_chat":
+    case "T_set_description_on_chat":
+    case "T_set_title_on_chat":
+    case "T_answer_query_a_callback":
+    case "T_answer_inline_query_a_callback":
+    case "T_get_file":
+    case "T_delete_chat_message":
+    case "T_edit_test_message":
+    case "T_pin_chat_message":
+    case "T_send_text_message":
+    case "T_send_media_group_message":
+    case "T_send_photo_message":
+    case "T_send_animated_file":
+    case "T_send_audio_file":
+    case "T_send_chat_action":
+    case "T_send_sticker":
+    case "T_send_video":
+    case "T_unpin_chat_message":
+    case "T_on_message":
+    case "T_on_callback_query":
+    case "T_on_channel_post":
+    case "T_on_edited_channel_post":
+    case "T_on_edited_message":
+    case "T_on_inline_query":
+    case "T_on_poll_change":
+    case "T_on_pre_checkout_query":
+    case "T_on_shipping_query":
       return (
         <Image
           src="/telegram.svg"
@@ -116,28 +124,28 @@ const EditorCanvasIconHelper = ({ type }: Props) => {
           height={30}
         />
       );
-      case "J_jira_connection":
-        case "J_get_many_issues":
-        case "J_get_an_issue":
-        case "J_create_an_issue":
-        case "J_delete_an_issue":
-        case "J_update_an_issue":
-        case "J_get_the_status_of_an_issue":
-        case "J_get_an_issue_changelog":
-        case "J_create_email_notification_for_an_issue":
-        case "J_add_an_attachment_to_an_issue":
-        case "J_get_an_attachment_from_an_issue":
-        case "J_get_many_issue_attachments":
-        case "J_remove_an_attachment_from_an_issue":
-        case "J_add_a_comment":
-        case "J_get_a_comment":
-        case "J_get_many_comments":
-        case "J_remove_a_comment":
-        case "J_update_a_comment":
-        case "J_create_a_user":
-        case "J_delete_a_user":
-        case "J_get_a_user":
-        case "J_get_all_users":
+    case "J_jira_connection":
+    case "J_get_many_issues":
+    case "J_get_an_issue":
+    case "J_create_an_issue":
+    case "J_delete_an_issue":
+    case "J_update_an_issue":
+    case "J_get_the_status_of_an_issue":
+    case "J_get_an_issue_changelog":
+    case "J_create_email_notification_for_an_issue":
+    case "J_add_an_attachment_to_an_issue":
+    case "J_get_an_attachment_from_an_issue":
+    case "J_get_many_issue_attachments":
+    case "J_remove_an_attachment_from_an_issue":
+    case "J_add_a_comment":
+    case "J_get_a_comment":
+    case "J_get_many_comments":
+    case "J_remove_a_comment":
+    case "J_update_a_comment":
+    case "J_create_a_user":
+    case "J_delete_a_user":
+    case "J_get_a_user":
+    case "J_get_all_users":
       return (
         <Image
           src="/jira.svg"
@@ -147,9 +155,9 @@ const EditorCanvasIconHelper = ({ type }: Props) => {
           height={30}
         />
       );
-      case "G_connect_gmail":
-        case "G_get_latest_email":
-        case "G_send_message_to_draft":
+    case "G_connect_gmail":
+    case "G_get_latest_email":
+    case "G_send_message_to_draft":
       return (
         <Image
           src="/gmail.svg"
@@ -159,38 +167,38 @@ const EditorCanvasIconHelper = ({ type }: Props) => {
           height={30}
         />
       );
-      case "O_connect_to_outlook":
-        case "O_get_a_message":
-        case "O_get_many_messages":
-        case "O_delete_message":
-        case "O_create_a_draft":
-        case "O_get_the_draft":
-        case "O_delete_draft":
-        case "O_update_draft":
-        case "O_send_mail":
-        case "O_create_folder":
-        case "O_get_a_folder":
-        case "O_get_many_folders":
-        case "O_update_folder":
-        case "O_delete_folder":
-        case "O_create_contact":
-        case "O_delete_contact":
-        case "O_get_contact":
-        case "O_get_all_contacts":
-        case "O_update_contact":
-        case "O_create_calendar":
-        case "O_delete_calendar":
-        case "O_get_calendar":
-        case "O_get_all_calendars":
-        case "O_update_calendar":
-        case "O_create_event":
-        case "O_delete_event":
-        case "O_get_all_events":
-        case "O_update_event":
-        case "O_add_attachment":
-        case "O_download_attachment":
-        case "O_get_attachment":
-        case "O_get_all_attachments":
+    case "O_connect_to_outlook":
+    case "O_get_a_message":
+    case "O_get_many_messages":
+    case "O_delete_message":
+    case "O_create_a_draft":
+    case "O_get_the_draft":
+    case "O_delete_draft":
+    case "O_update_draft":
+    case "O_send_mail":
+    case "O_create_folder":
+    case "O_get_a_folder":
+    case "O_get_many_folders":
+    case "O_update_folder":
+    case "O_delete_folder":
+    case "O_create_contact":
+    case "O_delete_contact":
+    case "O_get_contact":
+    case "O_get_all_contacts":
+    case "O_update_contact":
+    case "O_create_calendar":
+    case "O_delete_calendar":
+    case "O_get_calendar":
+    case "O_get_all_calendars":
+    case "O_update_calendar":
+    case "O_create_event":
+    case "O_delete_event":
+    case "O_get_all_events":
+    case "O_update_event":
+    case "O_add_attachment":
+    case "O_download_attachment":
+    case "O_get_attachment":
+    case "O_get_all_attachments":
       return (
         <Image
           src="/outlook.svg"

@@ -1,18 +1,19 @@
 import axios from 'axios';
+import { NextRequest, NextResponse } from 'next/server';
 
-const TELEGRAM_API_URL = process.env.TELEGRAM_API_URL || '';
-const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '';
+const TELEGRAM_API_URL = process.env.TELEGRAM_API_URL;
+const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 
-export async function GET(req: Request, { params }: { params: { chat_id: string } }) {
+export async function GET(req: NextRequest, { params }: { params: { chat_id: string } }) {
   try {
     const { chat_id } = params;
     const url = new URL(req.url);
     const userId = url.searchParams.get('user_id');
-    
+
     if (!userId) {
-      return new Response(
-        JSON.stringify({ error: 'user_id is required' }),
-        { status: 400, headers: { 'Content-Type': 'application/json' } }
+      return NextResponse.json(
+        { error: 'user_id is required' },
+        { status: 400 }
       );
     }
 
@@ -21,20 +22,20 @@ export async function GET(req: Request, { params }: { params: { chat_id: string 
     const data = res.data;
 
     if (data.ok) {
-      return new Response(
-        JSON.stringify({ ok: true, member: data.result }),
-        { status: 200, headers: { 'Content-Type': 'application/json' } }
+      return NextResponse.json(
+        { ok: true, member: data.result },
+        { status: 200 }
       );
     } else {
       throw new Error('Failed to fetch chat member information.');
     }
   } catch (error: unknown) {
     console.error('Error occurred while fetching chat member info:', error);
-    return new Response(
-      JSON.stringify({
-        error: error instanceof Error ? error.message : 'An unknown error occurred.',
-      }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
+    return NextResponse.json(
+      {
+        error: error instanceof Error ? error.message : 'An unknown error occurred.'
+      },
+      { status: 500 }
     );
   }
 }

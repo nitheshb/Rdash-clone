@@ -82,7 +82,7 @@ import {
   OsendMailOutlookF,
   OupdateDraftOutlookF,
 } from "./outlook-functions";
-import { TgetChatF, TgetAllAdministratorsInChatF, TgetMemberInChatF, TleaveChatF, TsetDescriptionOnChatF, TsetTitleOnChatF, TanswerQueryACallbackF, TanswerInlineQueryACallbackF, TgetFileF, TdeleteChatMessageF, TeditTestMessageF, TpinChatMessageF, TsendMediaGroupMessageF, TsendTextMessageF, TsendPhotoMessageF, TsendAnimatedFileF, TsendAudioFileF, TsendStickerF, TsendVideoF, TsendChatActionF, TunpinChatMessageF, TonMessageF } from "./telegram-functions";
+import { TgetChatF, TgetAllAdministratorsInChatF, TgetMemberInChatF, TleaveChatF, TsetDescriptionOnChatF, TsetTitleOnChatF, TanswerQueryACallbackF, TanswerInlineQueryACallbackF, TgetFileF, TdeleteChatMessageF, TeditTestMessageF, TpinChatMessageF, TsendMediaGroupMessageF, TsendTextMessageF, TsendPhotoMessageF, TsendAnimatedFileF, TsendAudioFileF, TsendStickerF, TsendVideoF, TsendChatActionF, TunpinChatMessageF, TonMessageF, TonCallbackQueryF, TonChannelPostF, TonEditedChannelPostF, TonEditedMessageF, TonInlineQueryF, TonPollChangeF, TonPreCheckoutQueryF, TonShippingQueryF } from "./telegram-functions";
 
 export const clients = [...new Array(10)].map((client, index) => ({
   href: `/${index + 1}.png`,
@@ -340,6 +340,62 @@ export const EditorCanvasDefaultCardTypes = {
     myFunction: TonMessageF,
     status: "idle",
     value: "T_on_message",
+  },
+  "On callback query": {
+    description: "Triggered when a user interacts with an inline button",
+    type: "Trigger",
+    myFunction: TonCallbackQueryF,
+    status: "idle",
+    value: "T_on_callback_query",
+  },
+  "On channel post": {
+    description: "Triggered when a new post is made in a channel",
+    type: "Trigger",
+    myFunction: TonChannelPostF,
+    status: "idle",
+    value: "T_on_channel_post",
+  },
+  "On edited channel post": {
+    description: "Triggered when a channel post is edited",
+    type: "Trigger",
+    myFunction: TonEditedChannelPostF,
+    status: "idle",
+    value: "T_on_edited_channel_post",
+  },
+  "On edited message": {
+    description: "Triggered when a message is edited",
+    type: "Trigger",
+    myFunction: TonEditedMessageF,
+    status: "idle",
+    value: "T_on_edited_message",
+  },
+  "On inline query": {
+    description: "Triggered when a user sends an inline query",
+    type: "Trigger",
+    myFunction: TonInlineQueryF,
+    status: "idle",
+    value: "T_on_inline_query",
+  },
+  "On poll change": {
+    description: "Triggered when a poll is updated or closed",
+    type: "Trigger",
+    myFunction: TonPollChangeF,
+    status: "idle",
+    value: "T_on_poll_change",
+  },
+  "On pre checkout query": {
+    description: "Triggered when a user proceeds to checkout in a payment",
+    type: "Trigger",
+    myFunction: TonPreCheckoutQueryF,
+    status: "idle",
+    value: "T_on_pre_checkout_query",
+  },
+  "On shipping query": {
+    description: "Triggered when a user enters shipping details in a payment",
+    type: "Trigger",
+    myFunction: TonShippingQueryF,
+    status: "idle",
+    value: "T_on_shipping_query",
   },
   "Open AI": {
     description: "Use Open AI to summarize, respond, create and much more.",
@@ -878,7 +934,9 @@ export const nodeActions: NodeActions = {
 };
 
 export const nodeTriggers: NodeTriggers = {
-  "T_telegram_connection": ["T_on_message"],
+  "T_telegram_connection": ["T_on_message", "T_on_callback_query", "T_on_channel_post",
+    "T_on_edited_channel_post", "T_on_edited_message", "T_on_inline_query",
+    "T_on_poll_change", "T_on_pre_checkout_query", "T_on_shipping_query"],
 };
 
 export const CONNECTIONS: Connection[] = [
