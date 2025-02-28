@@ -22,13 +22,18 @@ export async function GET() {
     );
 
     if (!response.ok) {
-      return { error: "Failed to fetch drafts" };
+      return new Response(JSON.stringify({ error: "Failed to fetch drafts" }), {
+        status: response.status || 500,
+      });
     }
 
     const drafts = await response.json();
 
     if (drafts.value.length === 0) {
-      return { error: "No drafts found" };
+      return new Response(
+        JSON.stringify({ error: "No drafts found" }),
+        { status: 404 }
+      );
     }
 
     return new Response(
@@ -38,12 +43,13 @@ export async function GET() {
         subject: drafts.value[0].subject,
         message: drafts.value[0].bodyPreview,
       }),
-      {
-        status: 200,
-      }
+      { status: 200 }
     );
   } catch (error) {
     console.error("Error fetching first draft:", error);
-    return { error: "Internal server error" };
+    return new Response(
+      JSON.stringify({ error: "Internal server error" }),
+      { status: 500 }
+    );
   }
 }

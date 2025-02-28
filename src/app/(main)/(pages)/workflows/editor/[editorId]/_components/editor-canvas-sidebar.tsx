@@ -42,7 +42,7 @@ const EditorCanvasSidebar = ({ nodes, onClose }: Props) => {
     if (state) {
       onConnections(nodeConnection, state, googleFile)
     }
-  }, [state])
+  }, [state, nodeConnection, googleFile])
 
   useEffect(() => {
     if (nodeConnection.slackNode.slackAccessToken) {
@@ -51,7 +51,7 @@ const EditorCanvasSidebar = ({ nodes, onClose }: Props) => {
         setSlackChannels
       )
     }
-  }, [nodeConnection])
+  }, [nodeConnection, setSlackChannels])
 
   const handleNodeDrop = (nodeType: string) => {
     setSelectedNode(nodeType)
@@ -81,9 +81,9 @@ const EditorCanvasSidebar = ({ nodes, onClose }: Props) => {
 
   const shouldShowActionsTab = !selectedNode || (selectedNode && filteredActions.length < 1)
 
-   const cardType = Object.keys(EditorCanvasDefaultCardTypes).find(
-        (key) => EditorCanvasDefaultCardTypes[key as keyof typeof EditorCanvasDefaultCardTypes].value === selectedNode
-      );
+  const cardType = Object.keys(EditorCanvasDefaultCardTypes).find(
+    (key) => EditorCanvasDefaultCardTypes[key as keyof typeof EditorCanvasDefaultCardTypes].value === selectedNode
+  );
 
   return (
     <aside>
@@ -251,22 +251,22 @@ const EditorCanvasSidebar = ({ nodes, onClose }: Props) => {
                   </AccordionTrigger>
                   <AccordionContent>
                     {filteredTriggers.map(trigger => {
-                        const cardKey = Object.keys(EditorCanvasDefaultCardTypes).find(
-                          (key) => EditorCanvasDefaultCardTypes[key as keyof typeof EditorCanvasDefaultCardTypes].value === trigger
-                        );
-                        return (
-                      <div key={trigger}
-                        draggable
-                        className="w-full cursor-grab"
-                        onDragStart={(event) => onDragStart(event, trigger as EditorCanvasTypes)}
-                      >
-                        <div className="flex flex-row items-center gap-3 p-2">
-                          <EditorCanvasIconHelper type={trigger as EditorCanvasTypes} />
-                          <p className="text-md font-medium">{cardKey}</p>
+                      const cardKey = Object.keys(EditorCanvasDefaultCardTypes).find(
+                        (key) => EditorCanvasDefaultCardTypes[key as keyof typeof EditorCanvasDefaultCardTypes].value === trigger
+                      );
+                      return (
+                        <div key={trigger}
+                          draggable
+                          className="w-full cursor-grab"
+                          onDragStart={(event) => onDragStart(event, trigger as EditorCanvasTypes)}
+                        >
+                          <div className="flex flex-row items-center gap-3 p-2">
+                            <EditorCanvasIconHelper type={trigger as EditorCanvasTypes} />
+                            <p className="text-md font-medium">{cardKey}</p>
+                          </div>
                         </div>
-                      </div>
-                   );
-                  })}
+                      );
+                    })}
                   </AccordionContent>
                 </AccordionItem>
               )}

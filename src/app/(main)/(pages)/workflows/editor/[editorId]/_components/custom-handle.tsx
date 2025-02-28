@@ -28,7 +28,7 @@ const CustomHandle = (props: Props) => {
         ).length
 
         if (targetFromHandleInState === 1) return false
-        if (sourceNode?.type === 'Condition') return true
+        if (sourceNode?.type === 'C_condition_check') return true
         if (sourcesFromHandleInState < 1) return true
         return false
       }}

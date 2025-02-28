@@ -66,7 +66,7 @@ const ContentBasedOnTitle = ({
       }
     }
     reqGoogle()
-  }, [])
+  }, [setFile])
 
   // @ts-ignore
   const nodeConnectionType: any = nodeConnection[nodeMapper[title]]
@@ -76,16 +76,15 @@ const ContentBasedOnTitle = ({
     title === 'Google Drive'
       ? !nodeConnection.isLoading
       : !!nodeConnectionType[
-          `${
-            title === 'Slack'
-              ? 'slackAccessToken'
-              : title === 'Discord'
-              ? 'webhookURL'
-              : title === 'Notion'
-              ? 'accessToken'
-              : ''
-          }`
-        ]
+      `${title === 'Slack'
+        ? 'slackAccessToken'
+        : title === 'Discord'
+          ? 'webhookURL'
+          : title === 'Notion'
+            ? 'accessToken'
+            : ''
+      }`
+      ]
 
   if (!isConnected) return <p>Not connected</p>
 
