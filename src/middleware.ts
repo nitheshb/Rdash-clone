@@ -12,6 +12,7 @@ export default authMiddleware({
     "/api/auth/callback/notion",
     "/api/auth/callback/slack",
     "/api/outlook/callback",
+    "/api/googleCalendar/callback",
     "/api/flow",
     "/api/cron/wait",
   ],

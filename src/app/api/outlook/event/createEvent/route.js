@@ -1,10 +1,11 @@
 import fetch from "node-fetch";
 import { NextResponse } from "next/server";
+import { getTokenByAppName } from "@/lib/token-connections";
 
 export async function POST(req) {
-  const token = process.env.OUTLOOK_ACCESS_TOKEN;
   const { subject, body, startDateTime, endDateTime, location, attendees } =
     await req.json();
+  const { tokenKey: token } = await getTokenByAppName("Outlook");
 
   try {
     if (!token) {

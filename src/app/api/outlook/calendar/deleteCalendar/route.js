@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
+import { getTokenByAppName } from "@/lib/token-connections";
 
 export async function DELETE(req) {
-  const token = process.env.OUTLOOK_ACCESS_TOKEN;
   const { searchParams } = new URL(req.url);
   const calendarId = searchParams.get("calendarId");
 
-  console.log("The id of the calendar", calendarId);
+  const { tokenKey: token } = await getTokenByAppName("Outlook");
 
   try {
     if (!token) {

@@ -1,8 +1,9 @@
 import fetch from "node-fetch";
 import { NextResponse } from "next/server";
+import { getTokenByAppName } from "@/lib/token-connections";
 
 export async function GET(req) {
-  const token = process.env.OUTLOOK_ACCESS_TOKEN; // Retrieve the token from environment variables
+  const { tokenKey: token } = await getTokenByAppName("Outlook");
 
   try {
     if (!token) {

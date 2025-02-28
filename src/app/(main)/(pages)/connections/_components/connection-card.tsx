@@ -1,6 +1,6 @@
 "use client";
 import { ConnectionTypes } from "@/lib/types";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Card,
   CardDescription,
@@ -10,7 +10,6 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import TelegramConnectForm from "@/components/forms/telegram-connect-form";
-import { useSearchParams } from "next/navigation";
 
 type Props = {
   type: ConnectionTypes;
@@ -29,16 +28,6 @@ const ConnectionCard = ({
   connected,
 }: Props) => {
   const [showTelegramForm, setShowTelegramForm] = useState(false);
-
-  const searchParams = useSearchParams();
-  const outlookToken = searchParams.get("outlook_token");
-
-  useEffect(() => {
-    if (outlookToken) {
-      localStorage.setItem("outlook_access_token", outlookToken);
-      window.history.replaceState(null, "", "/connections");
-    }
-  }, [outlookToken]);
 
   const handleConnectClick = (e: React.MouseEvent) => {
     if (title === "Telegram") {
@@ -64,7 +53,7 @@ const ConnectionCard = ({
         </div>
       </CardHeader>
       <div className="flex flex-col items-center gap-2 p-4">
-        {connected[type] ? (
+        {connected[`${type.split(" ")[0]}`] ? (
           <div className="border-bg-primary rounded-lg border-2 px-3 py-2 font-bold text-black dark:text-white">
             Connected
           </div>
@@ -79,6 +68,8 @@ const ConnectionCard = ({
                 ? process.env.NEXT_PUBLIC_SLACK_REDIRECT!
                 : title === "Outlook"
                 ? process.env.NEXT_PUBLIC_OUTLOOK_AUTH_URL!
+                : title === "Google Calendar"
+                ? process.env.NEXT_PUBLIC_GOOGLE_AUTH_URL!
                 : "#"
             }
             onClick={title === "Telegram" ? handleConnectClick : undefined}

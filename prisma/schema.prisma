@@ -122,3 +122,15 @@ model Workflows {
   User              User     @relation(fields: [userId], references: [clerkId])
   userId            String
 }
+
+model AccessTokenKeys {
+  id          String      @id @default(uuid())
+  tokenName   String
+  tokenKey    String
+  userId      String
+  appName     String
+  teamId    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  has_expiry  Boolean  @default(false)
+}

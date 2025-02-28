@@ -1,8 +1,9 @@
 import fetch from "node-fetch";
+import { getTokenByAppName } from "@/lib/token-connections";
 
 export async function GET(req) {
   try {
-    const token = process.env.OUTLOOK_ACCESS_TOKEN;
+    const { tokenKey: token } = await getTokenByAppName("Outlook");
 
     if (!token) {
       return new Response(JSON.stringify({ error: "Token is missing" }), {
