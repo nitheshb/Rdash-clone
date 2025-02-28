@@ -1,13 +1,12 @@
 import fetch from "node-fetch";
 import { NextResponse } from "next/server";
+import { getTokenByAppName } from "@/lib/token-connections";
 
 export async function DELETE(req) {
   try {
-    const token = process.env.OUTLOOK_ACCESS_TOKEN;
     const { searchParams } = new URL(req.url);
     const draftId = searchParams.get("draftId");
-
-    console.log("Received draftId:", draftId);
+    const { tokenKey: token } = await getTokenByAppName("Outlook");
 
     if (!token) {
       return new NextResponse(JSON.stringify({ error: "Token is missing" }), {

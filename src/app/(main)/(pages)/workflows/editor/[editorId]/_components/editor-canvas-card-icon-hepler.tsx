@@ -68,7 +68,13 @@ const EditorCanvasIconHelper = ({ type }: Props) => {
       );
     case "C_custom_webhook_event":
       return <Webhook className="flex-shrink-0" size={25} />;
-    case "G_google_calendar":
+    case "GL_google_calendar":
+    case "GL_get_availability_in_a_calendar":
+    case "GL_create_an_event":
+    case "GL_get_an_event":
+    case "GL_get_many_events":
+    case "GL_update_an_event":
+    case "GL_delete_an_event":
       return (
         <Image
           src="/googleCalendar.svg"

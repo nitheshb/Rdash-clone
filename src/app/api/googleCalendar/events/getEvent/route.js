@@ -1,51 +1,52 @@
+import fetch from "node-fetch";
 import { NextResponse } from "next/server";
 import { getTokenByAppName } from "@/lib/token-connections";
 
 export async function GET(req) {
   const { searchParams } = new URL(req.url);
-  const folderId = searchParams.get("folderId");
+  const eventId = searchParams.get("eventId");
 
-  const { tokenKey: token } = await getTokenByAppName("Outlook");
+  const { token } = await getTokenByAppName("Google");
+  console.log("The token here", token);
+
   if (!token) {
     return new NextResponse(JSON.stringify({ error: "Token is missing" }), {
       status: 400,
     });
   }
 
-  if (!folderId) {
-    return new NextResponse(
-      JSON.stringify({ error: "Folder ID is required" }),
-      { status: 400 }
-    );
+  if (!eventId) {
+    return new NextResponse(JSON.stringify({ error: "Event ID is required" }), {
+      status: 400,
+    });
   }
 
   try {
     const response = await fetch(
-      `https://graph.microsoft.com/v1.0/me/mailFolders/${folderId}`,
+      `https://www.googleapis.com/calendar/v3/calendars/primary/events/${eventId}`,
       {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
         },
       }
     );
 
+    const data = await response.json(); // Get the response data
+
     if (!response.ok) {
-      const errorData = await response.json();
       return new NextResponse(
-        JSON.stringify({
-          error: "Failed to retrieve folder",
-          details: errorData,
-        }),
+        JSON.stringify({ error: "Failed to fetch event", details: data }),
         { status: response.status }
       );
     }
 
-    const folder = await response.json();
-    return new NextResponse(JSON.stringify({ folder }), { status: 200 });
+    return new NextResponse(
+      JSON.stringify({ message: "Event fetched successfully", event: data }),
+      { status: 200 }
+    );
   } catch (error) {
-    console.error("Error retrieving folder:", error);
+    console.error("Error fetching event:", error);
     return new NextResponse(
       JSON.stringify({ error: "Internal server error" }),
       { status: 500 }

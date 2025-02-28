@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
+import { getTokenByAppName } from "@/lib/token-connections";
 
 export async function DELETE(req) {
-  const token = process.env.OUTLOOK_ACCESS_TOKEN;
   const { searchParams } = new URL(req.url);
   const folderId = searchParams.get("folderId");
+  const { tokenKey: token } = await getTokenByAppName("Outlook");
 
   if (!token) {
     return new NextResponse(JSON.stringify({ error: "Token is missing" }), {

@@ -82,7 +82,46 @@ import {
   OsendMailOutlookF,
   OupdateDraftOutlookF,
 } from "./outlook-functions";
-import { TgetChatF, TgetAllAdministratorsInChatF, TgetMemberInChatF, TleaveChatF, TsetDescriptionOnChatF, TsetTitleOnChatF, TanswerQueryACallbackF, TanswerInlineQueryACallbackF, TgetFileF, TdeleteChatMessageF, TeditTestMessageF, TpinChatMessageF, TsendMediaGroupMessageF, TsendTextMessageF, TsendPhotoMessageF, TsendAnimatedFileF, TsendAudioFileF, TsendStickerF, TsendVideoF, TsendChatActionF, TunpinChatMessageF, TonMessageF, TonCallbackQueryF, TonChannelPostF, TonEditedChannelPostF, TonEditedMessageF, TonInlineQueryF, TonPollChangeF, TonPreCheckoutQueryF, TonShippingQueryF } from "./telegram-functions";
+import {
+  TgetChatF,
+  TgetAllAdministratorsInChatF,
+  TgetMemberInChatF,
+  TleaveChatF,
+  TsetDescriptionOnChatF,
+  TsetTitleOnChatF,
+  TanswerQueryACallbackF,
+  TanswerInlineQueryACallbackF,
+  TgetFileF,
+  TdeleteChatMessageF,
+  TeditTestMessageF,
+  TpinChatMessageF,
+  TsendMediaGroupMessageF,
+  TsendTextMessageF,
+  TsendPhotoMessageF,
+  TsendAnimatedFileF,
+  TsendAudioFileF,
+  TsendStickerF,
+  TsendVideoF,
+  TsendChatActionF,
+  TunpinChatMessageF,
+  TonMessageF,
+  TonCallbackQueryF,
+  TonChannelPostF,
+  TonEditedChannelPostF,
+  TonEditedMessageF,
+  TonInlineQueryF,
+  TonPollChangeF,
+  TonPreCheckoutQueryF,
+  TonShippingQueryF,
+} from "./telegram-functions";
+import {
+  GCcreateEventCalendarF,
+  GCdeleteEventCalendarF,
+  GCeventAvailablityCalendarF,
+  GcgetEventCalendarF,
+  GCgetManyEventsCalendarF,
+  GCupdateEventCalendarF,
+} from "./google-calendar-functions";
 
 export const clients = [...new Array(10)].map((client, index) => ({
   href: `/${index + 1}.png`,
@@ -844,7 +883,49 @@ export const EditorCanvasDefaultCardTypes = {
     type: "Node",
     myFunction: GoogleCalendarEventF,
     status: "idle",
-    value: "G_google_calendar",
+    value: "GL_google_calendar",
+  },
+  "Get Availablity in a calendar": {
+    description: "Check for calendar Availability",
+    type: "Action",
+    myFunction: GCeventAvailablityCalendarF,
+    status: "idle",
+    value: "GL_get_availability_in_a_calendar",
+  },
+  "Create an event": {
+    description: "Create a event",
+    type: "Action",
+    myFunction: GCcreateEventCalendarF,
+    status: "idle",
+    value: "GL_create_an_event",
+  },
+  "Get an event": {
+    description: "Get an event",
+    type: "Action",
+    myFunction: GcgetEventCalendarF,
+    status: "idle",
+    value: "GL_get_an_event",
+  },
+  "Get many events": {
+    description: "Get many events",
+    type: "Action",
+    myFunction: GCgetManyEventsCalendarF,
+    status: "idle",
+    value: "GL_get_many_events",
+  },
+  "Update an event": {
+    description: "Update an event",
+    type: "Action",
+    myFunction: GCupdateEventCalendarF,
+    status: "idle",
+    value: "GL_update_an_event",
+  },
+  "Delete an event": {
+    description: "Delete an event",
+    type: "Action",
+    myFunction: GCdeleteEventCalendarF,
+    status: "idle",
+    value: "GL_delete_an_event",
   },
   Condition: {
     description: "Boolean operator that creates different conditions lanes.",
@@ -882,61 +963,159 @@ export const EditorCanvasDefaultCardTypes = {
     value: "W_wait_event",
   },
 };
-export const actionHeadings = [{ "label": "Chat Actions", "value": "chat_actions", },
-{ "label": "Callback Actions", "value": "callback_actions" },
-{ "label": "File Actions", "value": "file_actions" },
-{ "label": "Message Actions", "value": "message_actions" },
-{ "label": "Draft Actions", "value": "draft_actions" },
-{ "label": "Issue Actions", "value": "issue_actions" },
-{ "label": "Issue Attachment Actions", "value": "issue_attachment_actions" },
-{ "label": "Issue Comment Actions", "value": "issue_comment_actions" },
-{ "label": "User Actions", "value": "user_actions" },
-{ "label": "Calendar Actions", "value": "calendar_actions" },
-{ "label": "Contact Actions", "value": "contact_actions" },
-{ "label": "Event Actions", "value": "event_actions" },
-{ "label": "Folder Actions", "value": "folder_actions" },
-{ "label": "Message Attachment Actions", "value": "message_attachment_actions" },
-]
+export const actionHeadings = [
+  { label: "Chat Actions", value: "chat_actions" },
+  { label: "Callback Actions", value: "callback_actions" },
+  { label: "File Actions", value: "file_actions" },
+  { label: "Message Actions", value: "message_actions" },
+  { label: "Draft Actions", value: "draft_actions" },
+  { label: "Issue Actions", value: "issue_actions" },
+  { label: "Issue Attachment Actions", value: "issue_attachment_actions" },
+  { label: "Issue Comment Actions", value: "issue_comment_actions" },
+  { label: "User Actions", value: "user_actions" },
+  { label: "Calendar Actions", value: "calendar_actions" },
+  { label: "Contact Actions", value: "contact_actions" },
+  { label: "Event Actions", value: "event_actions" },
+  { label: "Folder Actions", value: "folder_actions" },
+  { label: "Message Attachment Actions", value: "message_attachment_actions" },
+];
 
 export const nodeActions: NodeActions = {
-  "T_telegram_connection": {
-    "chat_actions": [
-      "T_get_a_chat", "T_get_all_admins_in_chat", "T_get_member_in_chat", "T_leave_a_chat", "T_set_description_on_chat",
-      "T_set_title_on_chat"
+  T_telegram_connection: {
+    chat_actions: [
+      "T_get_a_chat",
+      "T_get_all_admins_in_chat",
+      "T_get_member_in_chat",
+      "T_leave_a_chat",
+      "T_set_description_on_chat",
+      "T_set_title_on_chat",
     ],
-    "callback_actions": ["T_answer_query_a_callback", "T_answer_inline_query_a_callback"],
-    "file_actions": ["T_get_file"],
-    "message_actions": ["T_delete_chat_message", "T_edit_test_message", "T_pin_chat_message", "T_send_animated_file", "T_send_audio_file",
-      "T_send_chat_action", "T_send_media_group_message", "T_send_text_message", "T_send_photo_message", "T_send_sticker",
-      "T_send_video", "T_unpin_chat_message"]
-  },
-  "G_connect_gmail": { "message_actions": ["G_get_latest_email"], "draft_actions": ["G_send_message_to_draft"] },
-  "J_jira_connection": {
-    "issue_actions": [
-      "J_get_an_issue_changelog", "J_create_an_issue", "J_delete_an_issue", "J_get_an_issue", "J_get_many_issues",
-      "J_create_email_notification_for_an_issue", "J_get_the_status_of_an_issue", "J_update_an_issue"
+    callback_actions: [
+      "T_answer_query_a_callback",
+      "T_answer_inline_query_a_callback",
     ],
-    "issue_attachment_actions": [
-      "J_add_an_attachment_to_an_issue", "J_get_an_attachment_from_an_issue", "J_get_many_issue_attachments",
-      "J_remove_an_attachment_from_an_issue"],
-    "issue_comment_actions": ["J_add_a_comment", "J_get_a_comment", "J_get_many_comments", "J_remove_a_comment", "J_update_a_comment"],
-    "user_actions": ["J_create_a_user", "J_delete_a_user", "J_get_a_user", "J_get_all_users"]
+    file_actions: ["T_get_file"],
+    message_actions: [
+      "T_delete_chat_message",
+      "T_edit_test_message",
+      "T_pin_chat_message",
+      "T_send_animated_file",
+      "T_send_audio_file",
+      "T_send_chat_action",
+      "T_send_media_group_message",
+      "T_send_text_message",
+      "T_send_photo_message",
+      "T_send_sticker",
+      "T_send_video",
+      "T_unpin_chat_message",
+    ],
   },
-  "O_connect_to_outlook": {
-    "message_actions": ["O_get_a_message", "O_get_many_messages", "O_delete_message"],
-    "draft_actions": ["O_create_a_draft", "O_get_the_draft", "O_delete_draft", "O_update_draft", "O_send_mail"],
-    "calendar_actions": ["O_create_calendar", "O_delete_calendar", "O_get_calendar", "O_get_all_calendars", "O_update_calendar"],
-    "contact_actions": ["O_create_contact", "O_delete_contact", "O_get_contact", "O_get_all_contacts", "O_update_contact"],
-    "event_actions": ["O_create_event", "O_delete_event", "O_get_all_events", "O_update_event"],
-    "folder_actions": ["O_create_folder", "O_delete_folder", "O_get_a_folder", "O_get_many_folders", "O_update_folder"],
-    "message_attachment_actions": ["O_add_attachment", "O_download_attachment", "O_get_attachment", "O_get_all_attachments"]
+  G_connect_gmail: {
+    message_actions: ["G_get_latest_email"],
+    draft_actions: ["G_send_message_to_draft"],
+  },
+  J_jira_connection: {
+    issue_actions: [
+      "J_get_an_issue_changelog",
+      "J_create_an_issue",
+      "J_delete_an_issue",
+      "J_get_an_issue",
+      "J_get_many_issues",
+      "J_create_email_notification_for_an_issue",
+      "J_get_the_status_of_an_issue",
+      "J_update_an_issue",
+    ],
+    issue_attachment_actions: [
+      "J_add_an_attachment_to_an_issue",
+      "J_get_an_attachment_from_an_issue",
+      "J_get_many_issue_attachments",
+      "J_remove_an_attachment_from_an_issue",
+    ],
+    issue_comment_actions: [
+      "J_add_a_comment",
+      "J_get_a_comment",
+      "J_get_many_comments",
+      "J_remove_a_comment",
+      "J_update_a_comment",
+    ],
+    user_actions: [
+      "J_create_a_user",
+      "J_delete_a_user",
+      "J_get_a_user",
+      "J_get_all_users",
+    ],
+  },
+  O_connect_to_outlook: {
+    message_actions: [
+      "O_get_a_message",
+      "O_get_many_messages",
+      "O_delete_message",
+    ],
+    draft_actions: [
+      "O_create_a_draft",
+      "O_get_the_draft",
+      "O_delete_draft",
+      "O_update_draft",
+      "O_send_mail",
+    ],
+    calendar_actions: [
+      "O_create_calendar",
+      "O_delete_calendar",
+      "O_get_calendar",
+      "O_get_all_calendars",
+      "O_update_calendar",
+    ],
+    contact_actions: [
+      "O_create_contact",
+      "O_delete_contact",
+      "O_get_contact",
+      "O_get_all_contacts",
+      "O_update_contact",
+    ],
+    event_actions: [
+      "O_create_event",
+      "O_delete_event",
+      "O_get_all_events",
+      "O_update_event",
+    ],
+    folder_actions: [
+      "O_create_folder",
+      "O_delete_folder",
+      "O_get_a_folder",
+      "O_get_many_folders",
+      "O_update_folder",
+    ],
+    message_attachment_actions: [
+      "O_add_attachment",
+      "O_download_attachment",
+      "O_get_attachment",
+      "O_get_all_attachments",
+    ],
+  },
+  GL_google_calendar: {
+    calendar_actions: ["GL_get_availability_in_a_calendar"],
+    event_actions: [
+      "GL_create_an_event",
+      "GL_get_an_event",
+      "GL_get_many_events",
+      "GL_update_an_event",
+      "GL_delete_an_event",
+    ],
   },
 };
 
 export const nodeTriggers: NodeTriggers = {
-  "T_telegram_connection": ["T_on_message", "T_on_callback_query", "T_on_channel_post",
-    "T_on_edited_channel_post", "T_on_edited_message", "T_on_inline_query",
-    "T_on_poll_change", "T_on_pre_checkout_query", "T_on_shipping_query"],
+  T_telegram_connection: [
+    "T_on_message",
+    "T_on_callback_query",
+    "T_on_channel_post",
+    "T_on_edited_channel_post",
+    "T_on_edited_message",
+    "T_on_inline_query",
+    "T_on_poll_change",
+    "T_on_pre_checkout_query",
+    "T_on_shipping_query",
+  ],
 };
 
 export const CONNECTIONS: Connection[] = [
@@ -1000,5 +1179,12 @@ export const CONNECTIONS: Connection[] = [
     image: "/outlook.png",
     connectionKey: "outlookNode",
     accessTokenKey: "outlookAccessToken",
+  },
+  {
+    title: "Google Calendar",
+    description: "Use Google Calendar to access events",
+    image: "/googleCalendar.svg",
+    connectionKey: "googleCalendarNode",
+    accessTokenKey: "googleCalendarAccessToken",
   },
 ];

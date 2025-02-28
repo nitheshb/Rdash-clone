@@ -1,30 +1,17 @@
 import { google } from "googleapis";
-import fs from "fs";
-import path from "path";
+import { getTokenByAppName } from "@/lib/token-connections";
 
-const CREDENTIALS_PATH = path.join(process.cwd(), "credentials.json");
+export async function GET() {
+  const { tokenKey: token } = await getTokenByAppName("Google");
 
-export async function GET(req) {
-  console.log("API route hit");
-
+  if (!token) {
+    return new NextResponse(JSON.stringify({ error: "Token is missing" }), {
+      status: 400,
+    });
+  }
   try {
-    const credentials = JSON.parse(fs.readFileSync(CREDENTIALS_PATH, "utf-8"));
-    console.log("Credentials loaded successfully");
-
-    const { client_secret, client_id, redirect_uris } = credentials.web;
-    const oAuth2Client = new google.auth.OAuth2(
-      client_id,
-      client_secret,
-      redirect_uris[0]
-    );
-
-    const token = fs.readFileSync(
-      path.join(process.cwd(), "token.json"),
-      "utf-8"
-    );
-    oAuth2Client.setCredentials(JSON.parse(token));
-    console.log("OAuth2 client set up");
-
+    const oAuth2Client = new google.auth.OAuth2();
+    oAuth2Client.setCredentials({ access_token: token });
     const gmail = google.gmail({ version: "v1", auth: oAuth2Client });
 
     const response = await gmail.users.messages.list({
@@ -32,7 +19,6 @@ export async function GET(req) {
       q: "is:unread",
       maxResults: 1,
     });
-    console.log("Fetched emails:", response.data.messages);
 
     if (!response.data.messages || response.data.messages.length === 0) {
       console.log("No unread emails found.");
@@ -47,20 +33,20 @@ export async function GET(req) {
       id: messageId,
     });
 
-    console.log("Email fetched successfully:", email.data);
-    const headers = email.data.payload.headers;
+    const headers = email?.data?.payload?.headers;
     const subject =
-      headers.find((header) => header.name === "Subject")?.value ||
+      headers.find((header) => header?.name === "Subject")?.value ||
       "No subject";
     const from =
-      headers.find((header) => header.name === "From")?.value ||
+      headers.find((header) => header?.name === "From")?.value ||
       "Unknown sender";
 
     const to =
-      headers.find((header) => header.name === "To")?.value ||
+      headers.find((header) => header?.name === "To")?.value ||
       "Unknown receiver";
 
-    const body = email.data.payload.parts?.[0]?.body?.data;
+    const body = email?.data?.payload?.parts?.[0]?.body?.data;
+    const id = email?.data?.id;
 
     let emailBody = "";
     if (body) {
@@ -74,6 +60,7 @@ export async function GET(req) {
         from,
         to,
         body: emailBody,
+        id,
       }),
       { status: 200 }
     );

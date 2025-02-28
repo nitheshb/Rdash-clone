@@ -1,10 +1,11 @@
 import fetch from "node-fetch";
 import { NextResponse } from "next/server";
+import { getTokenByAppName } from "@/lib/token-connections";
 
 export async function POST(req) {
-  const token = process.env.OUTLOOK_ACCESS_TOKEN;
   const { messageId, fileName, fileContent, contentType } = await req.json();
 
+  const { tokenKey: token } = await getTokenByAppName("Outlook");
   try {
     if (!token) {
       return new NextResponse(JSON.stringify({ error: "Token is missing" }), {

@@ -3,28 +3,20 @@ import { NextResponse } from "next/server";
 import { getTokenByAppName } from "@/lib/token-connections";
 
 export async function PATCH(req) {
-  const { eventId, subject, body, location, startDateTime, endDateTime } =
+  const { eventId, summary, description, startTime, endTime } =
     await req.json();
   const { tokenKey: token } = await getTokenByAppName("Outlook");
 
+  if (!token || !eventId || !summary || !startTime || !endTime) {
+    return new NextResponse(
+      JSON.stringify({ error: "Missing required fields" }),
+      { status: 400 }
+    );
+  }
+
   try {
-    if (!token) {
-      return new NextResponse(JSON.stringify({ error: "Token is missing" }), {
-        status: 400,
-      });
-    }
-
-    if (!eventId) {
-      return new NextResponse(
-        JSON.stringify({ error: "Event ID is required" }),
-        {
-          status: 400,
-        }
-      );
-    }
-
     const response = await fetch(
-      `https://graph.microsoft.com/v1.0/me/events/${eventId}`,
+      `https://www.googleapis.com/calendar/v3/calendars/primary/events/${eventId}`,
       {
         method: "PATCH",
         headers: {
@@ -32,20 +24,14 @@ export async function PATCH(req) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          subject,
-          body: {
-            contentType: "Text",
-            content: body,
-          },
-          location: {
-            displayName: location,
-          },
+          summary,
+          description,
           start: {
-            dateTime: startDateTime,
+            dateTime: startTime,
             timeZone: "UTC",
           },
           end: {
-            dateTime: endDateTime,
+            dateTime: endTime,
             timeZone: "UTC",
           },
         }),
@@ -54,7 +40,6 @@ export async function PATCH(req) {
 
     if (!response.ok) {
       const errorData = await response.json();
-      console.error("Error updating event:", errorData);
       return new NextResponse(
         JSON.stringify({ error: "Failed to update event", details: errorData }),
         { status: response.status }
@@ -70,9 +55,8 @@ export async function PATCH(req) {
       { status: 200 }
     );
   } catch (error) {
-    console.error("Error updating event:", error);
     return new NextResponse(
-      JSON.stringify({ error: "Internal server error" }),
+      JSON.stringify({ error: "Internal Server Error", details: error }),
       { status: 500 }
     );
   }

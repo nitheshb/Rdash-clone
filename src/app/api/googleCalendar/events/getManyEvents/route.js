@@ -1,32 +1,36 @@
+import fetch from "node-fetch";
 import { NextResponse } from "next/server";
 import { getTokenByAppName } from "@/lib/token-connections";
 
 export async function GET(req) {
   const { searchParams } = new URL(req.url);
-  const folderId = searchParams.get("folderId");
+  const timeMin = searchParams.get("timeMin");
+  const timeMax = searchParams.get("timeMax");
 
-  const { tokenKey: token } = await getTokenByAppName("Outlook");
+  const { token } = await getTokenByAppName("Google");
+
   if (!token) {
     return new NextResponse(JSON.stringify({ error: "Token is missing" }), {
       status: 400,
     });
   }
 
-  if (!folderId) {
+  if (!timeMin || !timeMax) {
     return new NextResponse(
-      JSON.stringify({ error: "Folder ID is required" }),
+      JSON.stringify({
+        error: "Both timeMin and timeMax are required",
+      }),
       { status: 400 }
     );
   }
 
   try {
     const response = await fetch(
-      `https://graph.microsoft.com/v1.0/me/mailFolders/${folderId}`,
+      `https://www.googleapis.com/calendar/v3/calendars/primary/events?timeMin=${timeMin}&timeMax=${timeMax}&singleEvents=true&orderBy=startTime`,
       {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
         },
       }
     );
@@ -34,18 +38,18 @@ export async function GET(req) {
     if (!response.ok) {
       const errorData = await response.json();
       return new NextResponse(
-        JSON.stringify({
-          error: "Failed to retrieve folder",
-          details: errorData,
-        }),
+        JSON.stringify({ error: "Failed to fetch events", details: errorData }),
         { status: response.status }
       );
     }
 
-    const folder = await response.json();
-    return new NextResponse(JSON.stringify({ folder }), { status: 200 });
+    const events = await response.json();
+    return new NextResponse(
+      JSON.stringify({ message: "Events fetched successfully", events }),
+      { status: 200 }
+    );
   } catch (error) {
-    console.error("Error retrieving folder:", error);
+    console.error("Error fetching events:", error);
     return new NextResponse(
       JSON.stringify({ error: "Internal server error" }),
       { status: 500 }

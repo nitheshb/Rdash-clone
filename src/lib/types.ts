@@ -19,7 +19,8 @@ export type ConnectionTypes =
   | "Telegram"
   | "Jira"
   | "Gmail"
-  | "Outlook";
+  | "Outlook"
+  | "Google Calendar";
 
 export type Connection = {
   title: ConnectionTypes;
@@ -38,7 +39,13 @@ export type EditorCanvasTypes =
   | "G_google_drive"
   | "N_notion"
   | "C_custom_webhook_event"
-  | "G_google_calendar"
+  | "GL_google_calendar"
+  | "GL_get_availability_in_a_calendar"
+  | "GL_create_an_event"
+  | "GL_get_an_event"
+  | "GL_get_many_events"
+  | "GL_update_an_event"
+  | "GL_delete_an_event"
   | "T_trigger_event"
   | "A_action_event"
   | "W_wait_event"
@@ -133,7 +140,6 @@ export type EditorCanvasTypes =
   | "O_get_attachment"
   | "O_get_all_attachments";
 
-
 export type EditorCanvasStatus = "idle" | "loading" | "success" | "failure";
 
 export type EditorCanvasCardType = {
@@ -172,30 +178,30 @@ export type EditorNode = EditorNodeType;
 
 export type EditorActions =
   | {
-    type: "LOAD_DATA";
-    payload: {
-      elements: EditorNode[];
-      edges: {
-        id: string;
-        source: string;
-        target: string;
-      }[];
-    };
-  }
+      type: "LOAD_DATA";
+      payload: {
+        elements: EditorNode[];
+        edges: {
+          id: string;
+          source: string;
+          target: string;
+        }[];
+      };
+    }
   | {
-    type: "UPDATE_NODE";
-    payload: {
-      elements: EditorNode[];
-    };
-  }
+      type: "UPDATE_NODE";
+      payload: {
+        elements: EditorNode[];
+      };
+    }
   | { type: "REDO" }
   | { type: "UNDO" }
   | {
-    type: "SELECTED_ELEMENT";
-    payload: {
-      element: EditorNode;
+      type: "SELECTED_ELEMENT";
+      payload: {
+        element: EditorNode;
+      };
     };
-  };
 
 export const nodeMapper: Record<string, string> = {
   Notion: "notionNode",

@@ -10,6 +10,7 @@ export type ConnectionProviderProps = {
   };
   gmailNode: {};
   outlookNode: {};
+  googleCalendarNode: {};
   setDiscordNode: React.Dispatch<React.SetStateAction<any>>;
   googleNode: {}[];
   setGoogleNode: React.Dispatch<React.SetStateAction<any>>;
@@ -72,6 +73,7 @@ const InitialValues: ConnectionProviderProps = {
   },
   gmailNode: {},
   outlookNode: {},
+  googleCalendarNode: {},
   googleNode: [],
   notionNode: {
     accessToken: "",
@@ -126,6 +128,9 @@ export const ConnectionsProvider = ({ children }: ConnectionWithChildProps) => {
   const [gmailNode, setGmailNode] = useState(InitialValues.gmailNode);
   const [outlookNode, setOutlookNode] = useState(InitialValues.outlookNode);
   const [telegramNode, setTelegramNode] = useState(InitialValues.telegramNode);
+  const [googleCalendarNode, setGoogleCalendarNode] = useState(
+    InitialValues.googleCalendarNode
+  );
   const [jiraNode, setJiraNode] = useState(InitialValues.jiraNode);
   const [isLoading, setIsLoading] = useState(InitialValues.isLoading);
   const [workflowTemplate, setWorkFlowTemplate] = useState(
@@ -141,6 +146,8 @@ export const ConnectionsProvider = ({ children }: ConnectionWithChildProps) => {
     setGmailNode,
     outlookNode,
     setOutlookNode,
+    googleCalendarNode,
+    setGoogleCalendarNode,
     notionNode,
     setNotionNode,
     slackNode,

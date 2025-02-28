@@ -5,17 +5,13 @@ export async function GET(req) {
   const code = searchParams.get("code");
 
   if (!code) {
-    console.error("≡ƒÜ¿ No authorization code received.");
     return NextResponse.json(
       { error: "No authorization code provided" },
       { status: 400 }
     );
   }
 
-  console.log("Γ£à Authorization Code Received:", code);
-
   try {
-    // Exchange authorization code for an access token
     const tokenUrl =
       "https://login.microsoftonline.com/common/oauth2/v2.0/token";
 
@@ -27,9 +23,6 @@ export async function GET(req) {
       redirect_uri: process.env.OUTLOOK_REDIRECT_URI || "",
     });
 
-    console.log("≡ƒöì Sending request to Microsoft for token exchange...");
-    console.log("≡ƒöì Request Body:", requestBody.toString());
-
     const response = await fetch(tokenUrl, {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -37,7 +30,6 @@ export async function GET(req) {
     });
 
     const data = await response.json();
-    console.log("≡ƒöì Microsoft OAuth Response:", data);
 
     if (!data.access_token) {
       console.error("≡ƒÜ¿ Failed to get access token:", data);
@@ -47,9 +39,6 @@ export async function GET(req) {
       );
     }
 
-    console.log("Γ£à Access Token Received:", data.access_token);
-
-    // Redirect user to `/connections` with the access token
     return NextResponse.redirect(
       `http://localhost:3000/connections?outlook_token=${data.access_token}`
     );

@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
+import { getTokenByAppName } from "@/lib/token-connections";
 
 export async function PATCH(req) {
-  const token = process.env.OUTLOOK_ACCESS_TOKEN;
   const { folderId, newFolderName } = await req.json();
+  const { tokenKey: token } = await getTokenByAppName("Outlook");
 
   if (!token) {
     return new NextResponse(JSON.stringify({ error: "Token is missing" }), {

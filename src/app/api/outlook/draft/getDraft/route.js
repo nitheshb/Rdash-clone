@@ -30,10 +30,9 @@ export async function GET() {
     const drafts = await response.json();
 
     if (drafts.value.length === 0) {
-      return new Response(
-        JSON.stringify({ error: "No drafts found" }),
-        { status: 404 }
-      );
+      return new Response(JSON.stringify({ error: "No drafts found" }), {
+        status: 404,
+      });
     }
 
     return new Response(
@@ -47,9 +46,8 @@ export async function GET() {
     );
   } catch (error) {
     console.error("Error fetching first draft:", error);
-    return new Response(
-      JSON.stringify({ error: "Internal server error" }),
-      { status: 500 }
-    );
+    return new Response(JSON.stringify({ error: "Internal server error" }), {
+      status: 500,
+    });
   }
 }
