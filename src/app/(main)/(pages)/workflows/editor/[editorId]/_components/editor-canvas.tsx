@@ -421,10 +421,7 @@ const EditorCanvas = (props: Props) => {
     <ResizablePanelGroup direction="horizontal">
       <ResizablePanel defaultSize={close ? 100 : 80}>
         <div className="flex h-full items-center justify-center">
-          <div
-            style={{ width: "100%", height: "100%", paddingBottom: "70px" }}
-            className="relative"
-          >
+          <div className="relative w-full h-full pb-[70px]">
             <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2">
               <div className="flex flex-col gap-2">
                 <div className="flex gap-3 p-4">
@@ -445,8 +442,7 @@ const EditorCanvas = (props: Props) => {
                     disabled={loading || isFlow.length < 1}
                     onClick={onTestWorkFlow}
                   >
-                    {" "}
-                    {loading ? "Testing" : "Test Workflow"}{" "}
+                    {loading ? "Testing" : "Test Workflow"}
                   </Button>
                 </div>
               </div>

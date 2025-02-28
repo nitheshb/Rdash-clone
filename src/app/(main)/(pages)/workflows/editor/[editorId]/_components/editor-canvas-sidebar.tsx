@@ -130,7 +130,7 @@ const EditorCanvasSidebar = ({ nodes, onClose }: Props) => {
                   <div className="flex flex-row items-center justify-between">
                     <div className='flex flex-row items-center gap-3 p-1'>
                       <EditorCanvasIconHelper type={cardData.value as EditorCanvasTypes} />
-                      <p className="text-md">{cardKey}</p>
+                      <p className="text-md font-medium">{cardKey}</p>
                     </div>
                     {hasActions && <ArrowRight size={20} className="text-gray-400" />}
                   </div>
@@ -232,7 +232,7 @@ const EditorCanvasSidebar = ({ nodes, onClose }: Props) => {
                           >
                             <div className="flex flex-row items-center gap-3 p-2">
                               <EditorCanvasIconHelper type={action as EditorCanvasTypes} />
-                              <p className="text-md">{cardKey}</p>
+                              <p className="text-md font-medium">{cardKey}</p>
                             </div>
                           </div>
                         );
@@ -262,7 +262,7 @@ const EditorCanvasSidebar = ({ nodes, onClose }: Props) => {
                       >
                         <div className="flex flex-row items-center gap-3 p-2">
                           <EditorCanvasIconHelper type={trigger as EditorCanvasTypes} />
-                          <p className="text-md">{cardKey}</p>
+                          <p className="text-md font-medium">{cardKey}</p>
                         </div>
                       </div>
                    );

@@ -15,15 +15,15 @@ type Props = { type: EditorCanvasTypes };
 const EditorCanvasIconHelper = ({ type }: Props) => {
   switch (type) {
     case "C_condition_check":
-      return <GitBranch className="flex-shrink-0" size={30} />;
+      return <GitBranch className="flex-shrink-0" size={25} />;
     case "O_open_ai":
       return (
         <Image
           src="/openai.svg"
           alt="Open AI"
           className="flex-shrink-0"
-          width={30}
-          height={30}
+          width={25}
+          height={25}
         />
       );
     case "S_slack":
@@ -32,8 +32,8 @@ const EditorCanvasIconHelper = ({ type }: Props) => {
           src="/slack.svg"
           alt="Slack"
           className="flex-shrink-0"
-          width={30}
-          height={30}
+          width={25}
+          height={25}
         />
       );
     case "G_google_drive":
@@ -42,8 +42,8 @@ const EditorCanvasIconHelper = ({ type }: Props) => {
           src="/googleDrive.svg"
           alt="Google Drive"
           className="flex-shrink-0"
-          width={30}
-          height={30}
+          width={25}
+          height={25}
         />
       );
     case "N_notion":
@@ -52,8 +52,8 @@ const EditorCanvasIconHelper = ({ type }: Props) => {
           src="/notion.svg"
           alt="Notion"
           className="flex-shrink-0"
-          width={30}
-          height={30}
+          width={25}
+          height={25}
         />
       );
     case "D_discord":
@@ -62,28 +62,28 @@ const EditorCanvasIconHelper = ({ type }: Props) => {
           src="/discord.svg"
           alt="Discord"
           className="flex-shrink-0"
-          width={30}
-          height={30}
+          width={25}
+          height={25}
         />
       );
     case "C_custom_webhook_event":
-      return <Webhook className="flex-shrink-0" size={30} />;
+      return <Webhook className="flex-shrink-0" size={25} />;
     case "G_google_calendar":
       return (
         <Image
           src="/googleCalendar.svg"
           alt="Google Calendar"
           className="flex-shrink-0"
-          width={30}
-          height={30}
+          width={25}
+          height={25}
         />
       );
     case "T_trigger_event":
-      return <MousePointerClickIcon className="flex-shrink-0" size={30} />;
+      return <MousePointerClickIcon className="flex-shrink-0" size={25} />;
     case "A_action_event":
-      return <Zap className="flex-shrink-0" size={30} />;
+      return <Zap className="flex-shrink-0" size={25} />;
     case "W_wait_event":
-      return <Timer className="flex-shrink-0" size={30} />;
+      return <Timer className="flex-shrink-0" size={25} />;
     case "T_telegram_connection":
     case "T_get_a_chat":
     case "T_get_all_admins_in_chat":
@@ -120,8 +120,8 @@ const EditorCanvasIconHelper = ({ type }: Props) => {
           src="/telegram.svg"
           alt="Telegram"
           className="flex-shrink-0"
-          width={30}
-          height={30}
+          width={25}
+          height={25}
         />
       );
     case "J_jira_connection":
@@ -151,8 +151,8 @@ const EditorCanvasIconHelper = ({ type }: Props) => {
           src="/jira.svg"
           alt="Jira"
           className="flex-shrink-0"
-          width={30}
-          height={30}
+          width={25}
+          height={25}
         />
       );
     case "G_connect_gmail":
@@ -163,8 +163,8 @@ const EditorCanvasIconHelper = ({ type }: Props) => {
           src="/gmail.svg"
           alt="Gmail"
           className="flex-shrink-0"
-          width={30}
-          height={30}
+          width={25}
+          height={25}
         />
       );
     case "O_connect_to_outlook":
@@ -204,12 +204,12 @@ const EditorCanvasIconHelper = ({ type }: Props) => {
           src="/outlook.svg"
           alt="Gmail"
           className="flex-shrink-0"
-          width={30}
-          height={30}
+          width={25}
+          height={25}
         />
       );
     default:
-      return <Zap className="flex-shrink-0" size={30} />;
+      return <Zap className="flex-shrink-0" size={25} />;
   }
 };
 
