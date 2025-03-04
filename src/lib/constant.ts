@@ -46,7 +46,7 @@ import {
   JupdateCommentF,
   JupdateIssueF,
 } from "./jira-functions";
-import { CopenaiResponseF } from "./openai-functions";
+import { CopenaiResponseF, OdeleteFileF, OlistFilesF, OuploadFileF } from "./openai-functions";
 import { GdraftGmailF, GfetchGmailF } from "./gmail-functions";
 import {
   OaddAttachmentOutlookF,
@@ -442,6 +442,27 @@ export const EditorCanvasDefaultCardTypes = {
     myFunction: CopenaiResponseF,
     status: "idle",
     value: "O_open_ai",
+  },
+  "Upload a file": {
+    description: "Upload a file to OpenAI for processing.",
+    type: "Action",
+    myFunction: OuploadFileF,
+    status: "idle",
+    value: "O_upload_file",
+  },
+  "List file": {
+    description: "List all uploaded files in OpenAI.",
+    type: "Action",
+    myFunction: OlistFilesF,
+    status: "idle",
+    value: "O_list_file",
+  },
+  "Delete a file": {
+    description: "Delete a specific file uploaded to OpenAI.",
+    type: "Action",
+    myFunction: OdeleteFileF,
+    status: "idle",
+    value: "O_delete_file",
   },
   "Jira Connection": {
     description: "Connect with Jira for actions",
@@ -1102,6 +1123,9 @@ export const nodeActions: NodeActions = {
       "GL_delete_an_event",
     ],
   },
+  O_open_ai:{
+    file_actions:[ "O_upload_file", "O_list_file", "O_delete_file"]
+  }
 };
 
 export const nodeTriggers: NodeTriggers = {

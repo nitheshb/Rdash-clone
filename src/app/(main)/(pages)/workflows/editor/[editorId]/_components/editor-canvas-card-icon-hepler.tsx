@@ -17,6 +17,9 @@ const EditorCanvasIconHelper = ({ type }: Props) => {
     case "C_condition_check":
       return <GitBranch className="flex-shrink-0" size={25} />;
     case "O_open_ai":
+    case "O_upload_file":
+    case "O_list_file":
+    case "O_delete_file":
       return (
         <Image
           src="/openai.svg"

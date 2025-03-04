@@ -35,6 +35,9 @@ export type Connection = {
 export type EditorCanvasTypes =
   | "C_condition_check"
   | "O_open_ai"
+  | "O_upload_file"
+  | "O_list_file"
+  | "O_delete_file"
   | "S_slack"
   | "G_google_drive"
   | "N_notion"
