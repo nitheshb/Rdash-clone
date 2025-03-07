@@ -194,6 +194,13 @@ const EditorCanvas = (props: Props) => {
       S_slack: EditorCanvasCardSingle,
       G_google_drive: EditorCanvasCardSingle,
       N_notion: EditorCanvasCardSingle,
+      N_append_block: EditorCanvasCardSingle,
+      N_get_many_child_blocks: EditorCanvasCardSingle,
+      N_get_database: EditorCanvasCardSingle,
+      N_get_many_databases: EditorCanvasCardSingle,
+      N_search_database: EditorCanvasCardSingle,
+      N_create_database_page: EditorCanvasCardSingle,
+      N_get_database_page: EditorCanvasCardSingle,
       D_discord: EditorCanvasCardSingle,
       C_custom_webhook_event: EditorCanvasCardSingle,
       G_google_calendar: EditorCanvasCardSingle,
@@ -296,7 +303,7 @@ const EditorCanvas = (props: Props) => {
     }),
     []
   );
-
+  
   const onGetWorkFlow = useCallback(async () => {
     setIsWorkFlowLoading(true);
     const response = await onGetNodesEdges(pathname.split("/").pop()!);

@@ -1,31 +1,50 @@
 import axios from "axios";
 
+// export const TonMessageF = async () => {
+//   const timeoutDuration = 30000;
+//   const pollingInterval = 5000;
+//   console.log("on Message function is listening");
+//   try {
+//     const startTime = Date.now();
+//     let latestMessage = null;
+
+//     while (Date.now() - startTime < timeoutDuration) {
+//       const response = await axios.get("/api/telegram/webhook");
+//       const data = response.data;
+
+//       if (data && data.text) {
+//         console.log("Processing message:", data.text);
+//         latestMessage = data;
+//         break; // Exit loop if new message found
+//       }
+
+//       console.log("Waiting for new message...");
+//       await new Promise((resolve) => setTimeout(resolve, pollingInterval));
+//     }
+
+//     if (latestMessage) {
+//       return { chatId: latestMessage.chatId, text: latestMessage.text };
+//     } else {
+//       console.log("No new messages within 30 seconds.");
+//       return "No new message received in 30 seconds.";
+//     }
+//   } catch (error) {
+//     console.error("Error fetching recent message", error);
+//     throw error;
+//   }
+// };
+
 export const TonMessageF = async () => {
-  const timeoutDuration = 30000;
-  const pollingInterval = 5000;
-  console.log("on Message function is listening")
   try {
-    const startTime = Date.now();
-    let latestMessage = null;
-    while (Date.now() - startTime < timeoutDuration) {
-      const response = await axios.get("/api/telegram/webhook");
-      const data = response.data;
-      if (data.text) {
-        console.log("Processing message:", data.text);
-        latestMessage = data;
-        break;
-      }
-      console.log("Waiting for new message...");
-      await new Promise((resolve) => setTimeout(resolve, pollingInterval));
-    }
-    if (latestMessage) {
-      return { chatId: latestMessage.chatId, text: latestMessage.text };
-    } else {
-      console.log("No new messages within 30 seconds.");
-      return "No new message received in 30 seconds.";
-    }
+    const response = await axios.get("/api/telegram/triggers/onMessage", {
+      headers: { "Content-Type": "application/json" },
+    });
+
+    const data = response.data;
+    console.log("Telegram Recent Message Response:", data.message?.text);
+    return data.message?.text || "No new messages found.";
   } catch (error) {
-    console.error("Error fetching recent message", error);
+    console.error("Error fetching recent message:", error);
     throw error;
   }
 };

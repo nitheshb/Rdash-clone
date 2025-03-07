@@ -50,6 +50,13 @@ const EditorCanvasIconHelper = ({ type }: Props) => {
         />
       );
     case "N_notion":
+    case "N_append_block":
+    case "N_get_many_child_blocks":
+    case "N_get_database":
+    case "N_get_many_databases":
+    case "N_search_database":
+    case "N_create_database_page":
+    case "N_get_database_page":
       return (
         <Image
           src="/notion.svg"

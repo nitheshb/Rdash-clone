@@ -41,6 +41,13 @@ export type EditorCanvasTypes =
   | "S_slack"
   | "G_google_drive"
   | "N_notion"
+  | "N_append_block"
+  | "N_get_many_child_blocks"
+  | "N_get_database"
+  | "N_get_many_databases"
+  | "N_search_database"
+  | "N_create_database_page"
+  | "N_get_database_page"
   | "C_custom_webhook_event"
   | "GL_google_calendar"
   | "GL_get_availability_in_a_calendar"
@@ -181,30 +188,30 @@ export type EditorNode = EditorNodeType;
 
 export type EditorActions =
   | {
-      type: "LOAD_DATA";
-      payload: {
-        elements: EditorNode[];
-        edges: {
-          id: string;
-          source: string;
-          target: string;
-        }[];
-      };
-    }
+    type: "LOAD_DATA";
+    payload: {
+      elements: EditorNode[];
+      edges: {
+        id: string;
+        source: string;
+        target: string;
+      }[];
+    };
+  }
   | {
-      type: "UPDATE_NODE";
-      payload: {
-        elements: EditorNode[];
-      };
-    }
+    type: "UPDATE_NODE";
+    payload: {
+      elements: EditorNode[];
+    };
+  }
   | { type: "REDO" }
   | { type: "UNDO" }
   | {
-      type: "SELECTED_ELEMENT";
-      payload: {
-        element: EditorNode;
-      };
+    type: "SELECTED_ELEMENT";
+    payload: {
+      element: EditorNode;
     };
+  };
 
 export const nodeMapper: Record<string, string> = {
   Notion: "notionNode",

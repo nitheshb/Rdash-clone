@@ -122,6 +122,7 @@ import {
   GCgetManyEventsCalendarF,
   GCupdateEventCalendarF,
 } from "./google-calendar-functions";
+import { NappendBlockF, NgetManyChildBlocksF, NgetDatabaseF, NgetManyDatabasesF, NsearchDatabaseF, NcreateDatabasePageF, NgetDatabasePageF } from "./notion-functions";
 
 export const clients = [...new Array(10)].map((client, index) => ({
   href: `/${index + 1}.png`,
@@ -892,6 +893,55 @@ export const EditorCanvasDefaultCardTypes = {
     status: "idle",
     value: "N_notion",
   },
+  "Append a block": {
+    description: "Append a block in Notion.",
+    type: "Action",
+    myFunction: NappendBlockF,
+    status: "idle",
+    value: "N_append_block",
+  },
+  "Get many child blocks": {
+    description: "Get many child blocks from Notion.",
+    type: "Action",
+    myFunction: NgetManyChildBlocksF,
+    status: "idle",
+    value: "N_get_many_child_blocks",
+  },
+  "Get a database": {
+    description: "Get a specific database from Notion.",
+    type: "Action",
+    myFunction: NgetDatabaseF,
+    status: "idle",
+    value: "N_get_database",
+  },
+  "Get many databases": {
+    description: "Get many databases from Notion.",
+    type: "Action",
+    myFunction: NgetManyDatabasesF,
+    status: "idle",
+    value: "N_get_many_databases",
+  },
+  "Search a database": {
+    description: "Search a database in Notion.",
+    type: "Action",
+    myFunction: NsearchDatabaseF,
+    status: "idle",
+    value: "N_search_database",
+  },
+  "Create a database page": {
+    description: "Create a database page in Notion.",
+    type: "Action",
+    myFunction: NcreateDatabasePageF,
+    status: "idle",
+    value: "N_create_database_page",
+  },
+  "Get a database page": {
+    description: "Get a specific database page from Notion.",
+    type: "Action",
+    myFunction: NgetDatabasePageF,
+    status: "idle",
+    value: "N_get_database_page",
+  },
   Discord: {
     description: "Post messages to Discord",
     type: "Node",
@@ -999,6 +1049,9 @@ export const actionHeadings = [
   { label: "Event Actions", value: "event_actions" },
   { label: "Folder Actions", value: "folder_actions" },
   { label: "Message Attachment Actions", value: "message_attachment_actions" },
+  { label: "Block Actions", value: "block_actions" },
+  { label: "Database Actions", value: "database_actions" },
+  { label: "Database Page Actions", value: "database_page_actions" },
 ];
 
 export const nodeActions: NodeActions = {
@@ -1123,9 +1176,14 @@ export const nodeActions: NodeActions = {
       "GL_delete_an_event",
     ],
   },
-  O_open_ai:{
-    file_actions:[ "O_upload_file", "O_list_file", "O_delete_file"]
-  }
+  O_open_ai: {
+    file_actions: ["O_upload_file", "O_list_file", "O_delete_file"],
+  },
+  N_notion: {
+    block_actions: ["N_append_block", "N_get_many_child_blocks"],
+    database_actions: ["N_get_database", "N_get_many_databases", "N_search_database",],
+    database_page_actions: ["N_create_database_page", "N_get_database_page"],
+  },
 };
 
 export const nodeTriggers: NodeTriggers = {
@@ -1200,7 +1258,7 @@ export const CONNECTIONS: Connection[] = [
   {
     title: "Outlook",
     description: "Use Outlook to get the latest email",
-    image: "/outlook.png",
+    image: "/outlook.svg",
     connectionKey: "outlookNode",
     accessTokenKey: "outlookAccessToken",
   },
