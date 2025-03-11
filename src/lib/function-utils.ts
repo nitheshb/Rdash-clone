@@ -87,3 +87,9 @@ export const GconnectOutlookF = async () => {
   await new Promise((resolve) => setTimeout(resolve, 2000));
   console.log("Sending data via GconnectOutlookF End...");
 };
+
+export const OpenAIEntryF = async () => {
+  console.log("Creating OpenAIEntry Start...");
+  await new Promise((resolve) => setTimeout(resolve, 2000));
+  console.log("Creating OpenAIEntry End...");
+};

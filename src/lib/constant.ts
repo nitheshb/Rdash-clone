@@ -22,6 +22,7 @@ import {
   TconnectTelegramF,
   TriggerEventF,
   WaitEventF,
+  OpenAIEntryF,
 } from "./function-utils";
 import {
   JaddAttachmentF,
@@ -46,7 +47,7 @@ import {
   JupdateCommentF,
   JupdateIssueF,
 } from "./jira-functions";
-import { CopenaiResponseF, OdeleteFileF, OlistFilesF, OuploadFileF } from "./openai-functions";
+import { OanalyzeImageF, OclassifyTextF, OcreateAssistantF, OdeleteAssistantF, OdeleteFileF, OgenerateAudioF, OgenerateImageF, OlistAssistantsF, OlistFilesF, OmessageModelF, OtranscribeAudioF, OtranslateAudioF, OupdateAssistantF, OuploadFileF } from "./openai-functions";
 import { GdraftGmailF, GfetchGmailF } from "./gmail-functions";
 import {
   OaddAttachmentOutlookF,
@@ -438,11 +439,88 @@ export const EditorCanvasDefaultCardTypes = {
     value: "T_on_shipping_query",
   },
   "Open AI": {
-    description: "Use Open AI to summarize, respond, create and much more.",
+    description: "Use Open AI to message a model to summarize, respond, create and much more.",
     type: "Node",
-    myFunction: CopenaiResponseF,
+    myFunction: OpenAIEntryF,
     status: "idle",
     value: "O_open_ai",
+  },
+  "message model": {
+    description: "Use Open AI to message a model to summarize, respond, create and much more.",
+    type: "Action",
+    myFunction: OmessageModelF,
+    status: "idle",
+    value: "O_message_model",
+  },
+  "Create an assistant": {
+    description: "Use Open AI to create assistant.",
+    type: "Action",
+    myFunction: OcreateAssistantF,
+    status: "idle",
+    value: "O_create_assistant",
+  },
+  "List assistant": {
+    description: "Use Open AI to list assistants.",
+    type: "Action",
+    myFunction: OlistAssistantsF,
+    status: "idle",
+    value: "O_list_assistants",
+  },
+  "Delete assistant": {
+    description: "Use Open AI to delete assistants.",
+    type: "Action",
+    myFunction: OdeleteAssistantF,
+    status: "idle",
+    value: "O_delete_assistant",
+  },
+  "Update assistant": {
+    description: "Use Open AI to update assistants.",
+    type: "Action",
+    myFunction: OupdateAssistantF,
+    status: "idle",
+    value: "O_update_assistant",
+  },
+  "Classify text for violations": {
+    description: "Use Open AI to Classify text for violations.",
+    type: "Action",
+    myFunction: OclassifyTextF,
+    status: "idle",
+    value: "O_classify_text",
+  },
+  "Analyze Image": {
+    description: "Use Open AI to Analyze Image.",
+    type: "Action",
+    myFunction: OanalyzeImageF,
+    status: "idle",
+    value: "O_analyze_image",
+  },
+  "Generate Image": {
+    description: "Use Open AI to generate Image.",
+    type: "Action",
+    myFunction: OgenerateImageF,
+    status: "idle",
+    value: "O_generate_image",
+  },
+  "Generate Audio": {
+    description: "Use Open AI to generate Audio.",
+    type: "Action",
+    myFunction: OgenerateAudioF,
+    status: "idle",
+    value: "O_generate_audio",
+  },
+  "Transcribe Audio": {
+    description: "Use Open AI to transcribe Audio.",
+    type: "Action",
+    myFunction: OtranscribeAudioF,
+    status: "idle",
+    value: "O_transcribe_audio",
+  },
+  "Translate Audio": {
+    description: "Use Open AI to transcribe Audio.",
+    type: "Action",
+    myFunction: OtranslateAudioF,
+    status: "idle",
+    value: "O_translate_audio",
   },
   "Upload a file": {
     description: "Upload a file to OpenAI for processing.",
@@ -1052,6 +1130,10 @@ export const actionHeadings = [
   { label: "Block Actions", value: "block_actions" },
   { label: "Database Actions", value: "database_actions" },
   { label: "Database Page Actions", value: "database_page_actions" },
+  { label: "Assistant Actions", value: "assistant_actions" },
+  { label: "Text Actions", value: "text_actions" },
+  { label: "Image Actions", value: "image_actions" },
+  { label: "Audio Actions", value: "audio_actions" },
 ];
 
 export const nodeActions: NodeActions = {
@@ -1178,6 +1260,10 @@ export const nodeActions: NodeActions = {
   },
   O_open_ai: {
     file_actions: ["O_upload_file", "O_list_file", "O_delete_file"],
+    assistant_actions: ["O_create_assistant", "O_list_assistants", "O_delete_assistant", "O_update_assistant"],
+    image_actions: ["O_analyze_image", "O_generate_image"],
+    text_actions: ["O_message_model","O_classify_text"],
+    audio_actions: ["O_generate_audio", "O_transcribe_audio", "O_translate_audio"],
   },
   N_notion: {
     block_actions: ["N_append_block", "N_get_many_child_blocks"],

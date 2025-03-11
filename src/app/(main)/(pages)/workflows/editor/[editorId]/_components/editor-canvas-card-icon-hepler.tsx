@@ -20,6 +20,17 @@ const EditorCanvasIconHelper = ({ type }: Props) => {
     case "O_upload_file":
     case "O_list_file":
     case "O_delete_file":
+    case "O_create_assistant":
+    case "O_list_assistants":
+    case "O_delete_assistant":
+    case "O_update_assistant":
+    case "O_message_model":
+    case "O_classify_text":
+    case "O_analyze_image":
+    case "O_generate_image":
+    case "O_generate_audio":
+    case "O_transcribe_audio":
+    case "O_translate_audio":
       return (
         <Image
           src="/openai.svg"
