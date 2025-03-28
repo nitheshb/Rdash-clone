@@ -3,7 +3,7 @@ import Logs from "@/components/icons/clipboard";
 import Templates from "@/components/icons/cloud_download";
 import Home from "@/components/icons/home";
 import Payment from "@/components/icons/payment";
-import Settings from "@/components/icons/settings";
+import Settings from "@/components/icons/settingsicon";
 import Workflows from "@/components/icons/workflows";
 import { Connection, NodeActions, NodeTriggers } from "./types";
 import {
@@ -124,6 +124,17 @@ import {
   GCupdateEventCalendarF,
 } from "./google-calendar-functions";
 import { NappendBlockF, NgetManyChildBlocksF, NgetDatabaseF, NgetManyDatabasesF, NsearchDatabaseF, NcreateDatabasePageF, NgetDatabasePageF } from "./notion-functions";
+import Insights from "@/components/icons/insights";
+import MyProjects from "@/components/icons/myprojects";
+import AllLibraries from "@/components/icons/alllibraries";
+import ManageVendor from "@/components/icons/managevendor";
+import ProjectIcon from "@/components/icons/myprojects";
+import Tasks from "@/components/icons/mytasks";
+import settings from "@/components/icons/settingsicon";
+import ManageClient from "@/components/icons/manageclient";
+import RDash from "@/components/icons/rdash";
+import HelpCenter from "@/components/icons/helpcenter";
+import CustomerSupport from "@/components/icons/customersupport";
 
 export const clients = [...new Array(10)].map((client, index) => ({
   href: `/${index + 1}.png`,
@@ -211,14 +222,25 @@ export const products = [
 ];
 
 export const menuOptions = [
-  { name: "Dashboard", Component: Home, href: "/dashboard" },
-  { name: "Workflows", Component: Workflows, href: "/workflows" },
-  { name: "Settings", Component: Settings, href: "/settings" },
-  { name: "Connections", Component: Category, href: "/connections" },
+  {  Component: RDash, href: "/" },
+  { name: "Insights", Component: Insights, href: "/insights" },
+  { name: "My Project", Component: ProjectIcon, href: "/dashboard" },
+  { name: "My Tasks", Component: Tasks, href: "/settings" },
+  { name: "All Libraries", Component: AllLibraries, href: "/connections" },
   // { name: "Billing", Component: Payment, href: "/billing" },
   // { name: "Templates", Component: Templates, href: "/templates" },
-  { name: "Logs", Component: Logs, href: "/logs" },
+  { name: "Manage Vendor", Component: ManageVendor, href: "/logs" },
+  { name: "Manage Client", Component: ManageClient, href: "/logs" },
+  { name: "Org.Settings", Component: settings, href: "/Insights" },
+
 ];
+
+export const footerOptions = [
+  { name: "Help Center", Component: HelpCenter, href: "/" },
+  { name: "Customer Support", Component: CustomerSupport, href: "/" },
+]
+
+
 
 export const EditorCanvasDefaultCardTypes = {
   "Telegram Connection": {
