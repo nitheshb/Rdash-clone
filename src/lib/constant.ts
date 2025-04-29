@@ -226,11 +226,20 @@ export const menuOptions = [
   { name: "Insights", Component: Insights, href: "/insights" },
   { name: "My Project", Component: ProjectIcon, href: "/dashboard" },
   { name: "My Tasks", Component: Tasks, href: "/settings" },
-  { name: "All Libraries", Component: AllLibraries, href: "/connections" },
+   { 
+    name: "All Libraries", 
+    Component: AllLibraries, 
+    href: "/All-libraries",
+    hasDropdown: true,
+    dropdownItems: [
+      { name: "My Libraries", href: "/All-libraries/my-libraries/element-libraries" },
+      { name: "Shared Libraries", href: "/All-libraries/shared-libraries" }
+    ]
+  },
   // { name: "Billing", Component: Payment, href: "/billing" },
   // { name: "Templates", Component: Templates, href: "/templates" },
   { name: "Manage Vendor", Component: ManageVendor, href: "/logs" },
-  { name: "Manage Client", Component: ManageClient, href: "/logs" },
+  { name: "Manage Client", Component: ManageClient, href: "/clients" },
   { name: "Org.Settings", Component: settings, href: "/Insights" },
 
 ];
