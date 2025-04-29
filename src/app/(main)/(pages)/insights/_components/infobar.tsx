@@ -7,8 +7,8 @@ import { Button } from "@/components/ui/button";
 
 export function InfoBar() {
   return (
-    <header className="bg-white border-b sticky top-0 z-30">
-    <div className="max-w-[1600px] mx-auto px-6 py-4 flex items-center justify-between">
+    <header className="bg-white border-b sticky top-0 z-30 mr-4">
+    <div className="max-w-[1550px] mx-auto px-6 py-4 flex items-center justify-between">
       <h1 className="text-xl font-semibold">Insights</h1>
       <div className="flex items-center gap-4">
         <Button variant="ghost" size="icon">
