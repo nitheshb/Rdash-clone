@@ -1,5 +1,5 @@
 
-<<<<<<< HEAD
+
 // // 'use client'
 // // import Link from 'next/link'
 // // import { usePathname } from 'next/navigation'
@@ -475,8 +475,7 @@
 // export default MenuOptions
 
 
-=======
->>>>>>> 7aa4f475b2c4ab519f5ebe7c89ea9680850cc9c5
+
 'use client'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'

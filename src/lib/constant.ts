@@ -238,7 +238,7 @@ export const menuOptions = [
   },
   // { name: "Billing", Component: Payment, href: "/billing" },
   // { name: "Templates", Component: Templates, href: "/templates" },
-  { name: "Manage Vendor", Component: ManageVendor, href: "/logs" },
+  { name: "Manage Vendor", Component: ManageVendor, href: "/manage-vendors" },
   { name: "Manage Client", Component: ManageClient, href: "/clients" },
   { name: "Org.Settings", Component: settings, href: "/Insights" },
 
